@@ -40,7 +40,7 @@ public interface Capabilities {
         }
 
         Configuration.timeout = 20000;
-        Configuration.remote = grid.concat("/wb/hub");
+        Configuration.remote = grid.concat("/wd/hub");
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setCapability("enableVNC", true);
         //        desiredCapabilities.setCapability("hostsEntries", new String[] {
