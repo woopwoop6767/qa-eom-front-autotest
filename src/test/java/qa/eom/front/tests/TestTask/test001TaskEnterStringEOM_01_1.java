@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import qa.eom.front.logic.driver.DesktopDriver;
 import qa.eom.front.logic.pages.TaskConstructorPage;
+import qa.eom.front.logic.UserCredentials;
 
 public class test001TaskEnterStringEOM_01_1 implements DesktopDriver {
 
@@ -13,6 +14,8 @@ public class test001TaskEnterStringEOM_01_1 implements DesktopDriver {
     @BeforeMethod
     void setUp() {
 
+
+        String hhh = UserCredentials.TEACHER_ASTAHOVA.getPassword();
         taskConstructorPage = new TaskConstructorPage();
 
 
