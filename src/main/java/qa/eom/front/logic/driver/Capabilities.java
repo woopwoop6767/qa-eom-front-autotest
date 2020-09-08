@@ -30,7 +30,7 @@ public interface Capabilities {
                 break;
             case "opera":
                 Configuration.browser = Browsers.OPERA;
-                Configuration.browserVersion = "69.0";
+                Configuration.browserVersion = "70.0";
                 break;
             case "chrome":
             default:
