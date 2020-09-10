@@ -2,7 +2,7 @@ package qa.eom.front.logic.driver;
 
 import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.Cookie;
-import qa.eom.front.logic.pojo.ResponseAuth;
+import qa.eom.front.logic.pojo.authresponse.ResponseAuth;
 
 import static com.codeborne.selenide.Selenide.refresh;
 

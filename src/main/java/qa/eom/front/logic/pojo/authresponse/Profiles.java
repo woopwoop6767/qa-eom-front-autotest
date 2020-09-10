@@ -1,4 +1,4 @@
-package qa.eom.front.logic.pojo;
+package qa.eom.front.logic.pojo.authresponse;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

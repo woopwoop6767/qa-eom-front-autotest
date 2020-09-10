@@ -1,8 +1,7 @@
 package qa.eom.front.logic.api.services;
 
-import io.restassured.http.ContentType;
 import qa.eom.front.logic.api.Specification;
-import qa.eom.front.logic.pojo.ResponseAuth;
+import qa.eom.front.logic.pojo.authresponse.ResponseAuth;
 
 import java.util.HashMap;
 
