@@ -22,7 +22,6 @@ public interface Authorization extends Specification {
                 }})
                 .post()
                 .then()
-                .log().all()
                 .spec(getResponseSpecification())
                 .extract().body().as(ResponseAuth.class)
                 ;

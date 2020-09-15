@@ -10,11 +10,11 @@ public class StringAnswer extends TaskConstructorPage {
 
 
     private SelenideElement h = $x("");
-    private SelenideElement answerFieldInput = $x("//input[contains(@placeholder,'Введите правильный ответ')]");
+    private SelenideElement elAnswerFieldInput = $x("//input[contains(@placeholder,'Введите правильный ответ')]");
 
     @Step("Ввести ответ {symbols} в поле ввода ответа")
     public StringAnswer enterSymbolsToAnswerFieldInput(String symbols) {
-        answerFieldInput.sendKeys(symbols);
+        elAnswerFieldInput.sendKeys(symbols);
         return this;
     }
 

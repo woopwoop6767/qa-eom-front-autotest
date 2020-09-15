@@ -4,11 +4,13 @@ buildscript {
     }
     dependencies {
         classpath "io.qameta.allure:allure-gradle:2.8.1"
+
     }
 }
 
 apply plugin: 'io.qameta.allure'
 apply plugin: 'java'
+
 
 allure {
     autoconfigure = true
