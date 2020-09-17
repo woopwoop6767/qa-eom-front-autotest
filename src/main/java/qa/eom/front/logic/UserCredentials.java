@@ -23,4 +23,5 @@ public enum UserCredentials {
         return hashPasswordOne;
     }
     public String getHashPasswordTwo() { return hashPasswordTwo; }
+
 }

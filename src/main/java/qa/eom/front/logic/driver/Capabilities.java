@@ -5,6 +5,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.qameta.allure.selenide.LogType;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.logging.Level;
@@ -17,6 +18,11 @@ public interface Capabilities {
         Configuration.timeout = 10000;
         Configuration.startMaximized = true;
         Configuration.driverManagerEnabled = true;
+//        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--disable-web-security");
+//        desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+//        Configuration.browserCapabilities = desiredCapabilities;
 
     }
 

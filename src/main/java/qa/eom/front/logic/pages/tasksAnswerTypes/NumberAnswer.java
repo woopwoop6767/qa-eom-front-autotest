@@ -6,15 +6,15 @@ import qa.eom.front.logic.pages.TaskConstructorPage;
 
 import static com.codeborne.selenide.Selenide.$x;
 
-public class NumberAnswer {
+public class NumberAnswer extends TaskConstructorPage {
 
 
-    private SelenideElement goToSettingsBtn = $x("//button[.//span[contains(text(),'Перейти к настройкам')]]");
-    private SelenideElement answerFieldInput = $x("//input[contains(@placeholder,'Введите правильный ответ')]");
+    private SelenideElement elAnswerFieldInput = $x("//input[contains(@placeholder,'Введите правильный ответ')]");
+
 
     @Step("Ввести ответ {symbols} в поле ввода ответа")
     public NumberAnswer enterSymbolsToAnswerFieldInput(String symbols) {
-        answerFieldInput.sendKeys(symbols);
+        elAnswerFieldInput.sendKeys(symbols);
         return this;
     }
 
