@@ -72,7 +72,7 @@ public class TaskPreviewPage {
      */
     @Step("Нажать на кнопку варианта ответа {optionText} в селекторе")
     public TaskPreviewPage clickInlineChoiceAnswerOptionInSelectorBtn(String optionText) {
-        elsInlineChoiceAnswerInSelectorListBtns.find(Condition.text(optionText)).click();
+        elsInlineChoiceAnswerInSelectorListBtns.find(Condition.matchesText(optionText)).click();
         return this;
     }
 
