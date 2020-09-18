@@ -50,15 +50,13 @@ public class test001TaskStringAnswerEOM_01_1 implements DesktopDriver, Authoriza
     @Test
     void test() {
 
-        open("https://uchebnik-stable.opk.su/exam/task/new/");
-
-
         stringAnswer
+                .openTaskConstructorPage()
                 .clickAnswerFormSelector()
                 .clickAnswerFormBtnInSelector("Ввод строки")
                 .enterSymbolsToQuestionField("a question...");
         stringAnswer
-                .enterSymbolsToAnswerFieldInput("An answer...")
+                .enterSymbolsToTaskFieldInput("An answer...")
                 .clickPreviewTaskBtn()
                 ;
 

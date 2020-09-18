@@ -46,10 +46,8 @@ public class test003TaskInlineChoiceAnswerТС_7661_1 implements DesktopDriver, 
     @Test
     void test() {
 
-        open("https://uchebnik-stable.opk.su/exam/task/new/");
-
-
         inlineSingleChoiceAnswer
+                .openTaskConstructorPage()
                 .clickAnswerFormSelector()
                 .clickAnswerFormBtnInSelector("Выпадающий список в тексте")
                 .enterSymbolsToQuestionField("a question...")

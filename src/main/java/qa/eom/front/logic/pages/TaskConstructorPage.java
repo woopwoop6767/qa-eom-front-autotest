@@ -6,12 +6,11 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import qa.eom.front.logic.dto.TaskFillData;
 
-import static com.codeborne.selenide.Selenide.$$x;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 
- public class TaskConstructorPage {
+public class TaskConstructorPage {
 
-
+    private String taskConstructorPageUrl = "https://uchebnik-stable.opk.su/exam/task/new/";
     private SelenideElement elGoToSettingsBtn = $x("//button[.//span[contains(text(),'Перейти к настройкам')]]");
     private SelenideElement elGoToEdittingBtn = $x("//button[.//*[contains(text(),'Перейти к редактированию')]]");
     private SelenideElement elUndoBtn = $x("//button[contains(@title,'Отменить действие')]");
@@ -35,6 +34,12 @@ import static com.codeborne.selenide.Selenide.$x;
     private SelenideElement elAcceptThemeBtn = $x("//button[.//*[contains(text(),'Применить')]]");
     private SelenideElement elTaskSuccessfullySavedMessage = $x("//p[contains(text(),'Тестовое задание сохранено')]");
 
+
+     @Step("Открыть страницу конструктора тестовых заданий {taskConstructorPageUrl}")
+     public TaskConstructorPage openTaskConstructorPage() {
+         open(taskConstructorPageUrl);
+         return this;
+     }
 
     @Step("Ввести текст {symbols} в поле ввода [Вопрос]")
     public TaskConstructorPage enterSymbolsToQuestionField(String symbols) {

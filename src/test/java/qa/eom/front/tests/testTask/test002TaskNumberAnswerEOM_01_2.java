@@ -47,10 +47,8 @@ public class test002TaskNumberAnswerEOM_01_2 implements DesktopDriver, Authoriza
     @Test
     void test() {
 
-        open("https://uchebnik-stable.opk.su/exam/task/new/");
-
-
         numberAnswer
+                .openTaskConstructorPage()
                 .clickAnswerFormSelector()
                 .clickAnswerFormBtnInSelector("Ввод числа")
                 .enterSymbolsToQuestionField("a question...");
