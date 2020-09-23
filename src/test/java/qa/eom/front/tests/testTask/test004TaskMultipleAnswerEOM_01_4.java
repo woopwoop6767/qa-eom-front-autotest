@@ -52,13 +52,13 @@ public class test004TaskMultipleAnswerEOM_01_4 implements DesktopDriver, Authori
                 .enterSymbolsToQuestionField("a question...")
                 ;
         multipleAnswer
-//                .clickAddAnswerBtn()
+                .clickAddAnswerBtn()
                 .enterSymbolsToAnswerFieldInput(0, "Правильный ответ1")
-//                .enterSymbolsToAnswerFieldInput(1, "Правильный ответ2")
-//                .clickAddDistractorBtn()
-//                .clickAddDistractorBtn()
-//                .enterSymbolsToDistractorFieldInput(0, "Дистрактор1")
-//                .enterSymbolsToDistractorFieldInput(1, "Дистрактор2")
+                .enterSymbolsToAnswerFieldInput(1, "Правильный ответ2")
+                .clickAddDistractorBtn()
+                .clickAddDistractorBtn()
+                .enterSymbolsToDistractorFieldInput(0, "Дистрактор1")
+                .enterSymbolsToDistractorFieldInput(1, "Дистрактор2")
                 .clickPreviewTaskBtn()
                 ;
 
