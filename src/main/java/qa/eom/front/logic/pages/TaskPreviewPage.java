@@ -3,15 +3,15 @@ package qa.eom.front.logic.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.impl.WebElementsCollection;
 import io.qameta.allure.Step;
-import org.apache.commons.lang3.ObjectUtils;
 import org.openqa.selenium.Keys;
-import qa.eom.front.logic.RandomChecker;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class TaskPreviewPage implements RandomChecker {
+public class TaskPreviewPage {
 
 
     private TaskConstructorPage taskConstructorPage = new TaskConstructorPage();
@@ -25,15 +25,6 @@ public class TaskPreviewPage implements RandomChecker {
     private ElementsCollection elsInlineChoiceAnswerInSelectorListBtns = $$x("//li[@role='option'][//ul[@role='listbox']]");
     private ElementsCollection elsMultipleAnswerOptions = $$x("//*[@title and @ style]");
 
-
-    @Step("Проверить, что сообщение [Ответ верен] отображается")
-    public String[] getMultipleAnswerOptionsText() {
-        String answerOptionsText[] = new String[elsMultipleAnswerOptions.size()];
-        for (int i = 0; i < elsMultipleAnswerOptions.size(); i++) {
-            answerOptionsText[i] = elsMultipleAnswerOptions.get(i).getText();
-        }
-        return answerOptionsText;
-    }
 
     @Step("Проверить, что сообщение [Ответ верен] отображается")
     public TaskPreviewPage checkAnswerIsCorrectMsgIsVisible() {
@@ -99,22 +90,35 @@ public class TaskPreviewPage implements RandomChecker {
     }
 
     /**
-     * Для формы ответа "Выбор нескольких вариантов ответа"
+     * Для форм ответа: "Выбор нескольких вариантов ответа"
      */
-    @Step("{optionText}")
-    public TaskPreviewPage checkMultipleAnswerOptionsRandom() {
+    @Step("Проверить перемешивание по тексту ответов для формы {answerOptionsOrder}")
+    private boolean checkOptionsRandom(ElementsCollection answerOptionsOrder) {
         int randomFailCounter = 0;
         while (randomFailCounter < 5) {
-            String[] answerOptionsOrderOne = getMultipleAnswerOptionsText();
+            List<String> answerOptionsOrderOne = answerOptionsOrder.stream()
+                    .map(val -> val.getText()).collect(Collectors.toList());
             clickGoToEditBtn();
             taskConstructorPage.clickPreviewTaskBtn();
-            String[] answerOptionsOrderTwo = getMultipleAnswerOptionsText();
-            if (isOptionsOrderDifferent(answerOptionsOrderOne, answerOptionsOrderTwo) == true) {
-                return this;
+            List<String> answerOptionsOrderTwo = answerOptionsOrder.stream()
+                    .map(val -> val.getText()).collect(Collectors.toList());
+            for (int i = 0; i < answerOptionsOrder.size(); i++) {
+                if (!answerOptionsOrderOne.get(i).equals(answerOptionsOrderTwo.get(i))) {
+                    return true;
+                }
             }
             randomFailCounter++;
         }
         throw new RuntimeException("Варианты ответов не перемешиваются");
+    }
+
+    /**
+     * Для формы ответа "Выбор нескольких вариантов ответа"
+     */
+    @Step("Проверить перемешивание вариантов ответа для формы [Выбор нескольких вариантов ответа]")
+    public TaskPreviewPage checkMultipleAnswerOptionsRandom() {
+        checkOptionsRandom(elsMultipleAnswerOptions);
+        return this;
     }
 
 
