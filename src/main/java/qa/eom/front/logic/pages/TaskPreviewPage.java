@@ -3,15 +3,18 @@ package qa.eom.front.logic.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.impl.WebElementsCollection;
 import io.qameta.allure.Step;
+import org.apache.commons.lang3.ObjectUtils;
 import org.openqa.selenium.Keys;
+import qa.eom.front.logic.RandomChecker;
 
-import static com.codeborne.selenide.Selenide.$$x;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 
-public class TaskPreviewPage {
+public class TaskPreviewPage implements RandomChecker {
 
 
+    private TaskConstructorPage taskConstructorPage = new TaskConstructorPage();
     private SelenideElement elAnswerIsCorrectMsg = $x("//p[contains(text(),'Ответ верен')]");
     private SelenideElement elAnswerIsWrongMsg = $x("//p[contains(text(),'Ответ неверен')]");
     private SelenideElement elAnswerBtn = $x("//button[.//*[contains(text(),'Ответить')]]");
@@ -20,7 +23,17 @@ public class TaskPreviewPage {
     private SelenideElement elAnswerFieldInput = $x("//input");
     private ElementsCollection elsInlineChoiceAnswerSelectors = $$x("//*[@role='button']");
     private ElementsCollection elsInlineChoiceAnswerInSelectorListBtns = $$x("//li[@role='option'][//ul[@role='listbox']]");
+    private ElementsCollection elsMultipleAnswerOptions = $$x("//*[@title and @ style]");
 
+
+    @Step("Проверить, что сообщение [Ответ верен] отображается")
+    public String[] getMultipleAnswerOptionsText() {
+        String answerOptionsText[] = new String[elsMultipleAnswerOptions.size()];
+        for (int i = 0; i < elsMultipleAnswerOptions.size(); i++) {
+            answerOptionsText[i] = elsMultipleAnswerOptions.get(i).getText();
+        }
+        return answerOptionsText;
+    }
 
     @Step("Проверить, что сообщение [Ответ верен] отображается")
     public TaskPreviewPage checkAnswerIsCorrectMsgIsVisible() {
@@ -76,7 +89,33 @@ public class TaskPreviewPage {
         return this;
     }
 
+    /**
+     * Для формы ответа "Выбор нескольких вариантов ответа"
+     */
+    @Step("Нажать на кнопку варианта ответа {optionText}")
+    public TaskPreviewPage clickMultipleAnswerOptionBtn(String optionText) {
+        elsMultipleAnswerOptions.find(Condition.attribute("title", optionText)).click();
+        return this;
+    }
 
+    /**
+     * Для формы ответа "Выбор нескольких вариантов ответа"
+     */
+    @Step("{optionText}")
+    public TaskPreviewPage checkMultipleAnswerOptionsRandom() {
+        int randomFailCounter = 0;
+        while (randomFailCounter < 5) {
+            String[] answerOptionsOrderOne = getMultipleAnswerOptionsText();
+            clickGoToEditBtn();
+            taskConstructorPage.clickPreviewTaskBtn();
+            String[] answerOptionsOrderTwo = getMultipleAnswerOptionsText();
+            if (isOptionsOrderDifferent(answerOptionsOrderOne, answerOptionsOrderTwo) == true) {
+                return this;
+            }
+            randomFailCounter++;
+        }
+        throw new RuntimeException("Варианты ответов не перемешиваются");
+    }
 
 
 
