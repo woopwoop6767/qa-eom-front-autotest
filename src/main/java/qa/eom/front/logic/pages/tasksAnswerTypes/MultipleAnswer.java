@@ -22,18 +22,12 @@ public class MultipleAnswer extends TaskConstructorPage {
     @Step("Ввести символы {symbols} в поле ввода ответа #{answerNumber}")
     public MultipleAnswer enterSymbolsToAnswerFieldInput(int answerNumber,String symbols) {
         elsAnswerFieldsInputs.get(answerNumber).sendKeys(symbols);
-        for (SelenideElement el : elEnterAnswerInfo) {
-            el.shouldNotBe(Condition.visible);
-        }
         return this;
     }
 
     @Step("Ввести символы {symbols} в поле ввода дистрактора #{distractorNumber}")
     public MultipleAnswer enterSymbolsToDistractorFieldInput(int distractorNumber,String symbols) {
         elsDistractorFieldsInput.get(distractorNumber).sendKeys(symbols);
-        for (SelenideElement el : elEnterAnswerInfo) {
-            el.shouldNotBe(Condition.visible);
-        }
         return this;
     }
 

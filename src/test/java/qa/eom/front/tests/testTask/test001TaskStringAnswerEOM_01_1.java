@@ -1,10 +1,8 @@
 package qa.eom.front.tests.testTask;
 
 
-import com.codeborne.selenide.SelenideElement;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+import qa.eom.front.logic.ApiActionsForTests;
 import qa.eom.front.logic.GenerateText;
 import qa.eom.front.logic.api.services.Authorization;
 import qa.eom.front.logic.driver.CookiesHandler;
@@ -15,16 +13,15 @@ import qa.eom.front.logic.pages.TaskPreviewPage;
 import qa.eom.front.logic.pages.tasksAnswerTypes.StringAnswer;
 import qa.eom.front.logic.pojo.authresponse.ResponseAuth;
 
-import static com.codeborne.selenide.Selenide.*;
 
-
-public class test001TaskStringAnswerEOM_01_1 implements DesktopDriver, Authorization, CookiesHandler, GenerateText {
+public class test001TaskStringAnswerEOM_01_1 implements DesktopDriver, Authorization, CookiesHandler, GenerateText, ApiActionsForTests {
 
 
     private ResponseAuth responseAuth;
     private StringAnswer stringAnswer;
     private TaskPreviewPage taskPreviewPage;
     private TaskFillData taskFillData;
+    private String idOfCreatedTask;
 
 
     @BeforeClass
@@ -90,6 +87,15 @@ public class test001TaskStringAnswerEOM_01_1 implements DesktopDriver, Authoriza
                 .fillAllSettingsFiedsAndSaveTask(taskFillData)
                 ;
 
+        idOfCreatedTask = stringAnswer.getIdOfCreatedTask();
+
+    }
+
+    @AfterClass
+    void afterClass() {
+        deleteTaskApi(responseAuth.getAuthenticationToken(),
+                responseAuth.getProfiles().stream().findFirst().get().getId(),
+                idOfCreatedTask);
     }
 
 }

@@ -3,12 +3,14 @@ package qa.eom.front.logic.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Step;
+import qa.eom.front.logic.api.Specification;
 import qa.eom.front.logic.dto.TaskFillData;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class TaskConstructorPage {
+public class TaskConstructorPage implements Specification {
 
     private String taskConstructorPageUrl = "https://uchebnik-stable.opk.su/exam/task/new/";
     private SelenideElement elGoToSettingsBtn = $x("//button[.//span[contains(text(),'Перейти к настройкам')]]");
@@ -188,7 +190,15 @@ public class TaskConstructorPage {
          return this;
      }
 
-//    @Override
-//    public abstract void doAnswerFormAction();
+    @Step("Скопировать ID задания из URL созданного задания")
+    public String getIdOfCreatedTask() {
+         String createdTaskUrl = WebDriverRunner.getWebDriver().getCurrentUrl();
+         if (createdTaskUrl.contains(getPropFromFile("baseUriStableOpk"))) {
+             return createdTaskUrl.substring(41, 48);
+         } else if (createdTaskUrl.contains(getPropFromFile("baseUriStableMos"))) {
+             return createdTaskUrl.substring(41, 48);
+         }
+         return String.valueOf(new RuntimeException("URL не найден."));
+    }
 
 }

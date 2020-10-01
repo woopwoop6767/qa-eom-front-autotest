@@ -1,6 +1,7 @@
 package qa.eom.front.logic.driver;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.Cookie;
 import qa.eom.front.logic.pojo.authresponse.ResponseAuth;
@@ -23,7 +24,8 @@ public interface CookiesHandler {
         setCookie("profile_id", responseAuth.getProfiles().stream().findFirst().get().getId());
         setCookie("profile_type", responseAuth.getProfiles().iterator().next().getRoles().get(0));
         refresh();
-        $x("//button[contains(@class,'userBtn')]").shouldBe(Condition.visible);
+        SelenideElement userMenuButton = $x("//button[contains(@class,'userBtn')]");
+        userMenuButton.shouldBe(Condition.visible);
 
     }
 }

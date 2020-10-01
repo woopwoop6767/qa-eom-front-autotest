@@ -19,7 +19,7 @@ public interface Specification extends GetEnv {
         return new RequestSpecBuilder()
                 .addFilter(new AllureRestAssured())
                 .setContentType(ContentType.JSON)
-                .setBaseUri("https://uchebnik-stable.opk.su/")
+                .setBaseUri(getPropFromFile("baseUriStableOpk"))
                 .setBasePath(path)
                 .build()
                 ;

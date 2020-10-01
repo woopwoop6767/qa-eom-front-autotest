@@ -24,6 +24,7 @@ public class TaskPreviewPage {
     private ElementsCollection elsInlineChoiceAnswerSelectors = $$x("//*[@role='button']");
     private ElementsCollection elsInlineChoiceAnswerInSelectorListBtns = $$x("//li[@role='option'][//ul[@role='listbox']]");
     private ElementsCollection elsMultipleAnswerOptions = $$x("//*[@title and @ style]");
+    private ElementsCollection elsSingleAnswerOptions = $$x("//*[contains(text(),'Укажите правильный вариант ответа')]/..//*[@title]");
 
 
     @Step("Проверить, что сообщение [Ответ верен] отображается")
@@ -51,9 +52,6 @@ public class TaskPreviewPage {
     }
 
     /**
-     *
-     * @param symbols
-     * @return
      * Работает с формами ответов: "Ввод строки", "Ввод числа"
      */
     @Step("Очистить и ввести символы {symbols} в поле ввода ответа")
@@ -121,6 +119,23 @@ public class TaskPreviewPage {
         return this;
     }
 
+    /**
+     * Для формы ответа "Выбор одного ответа"
+     */
+    @Step("Проверить перемешивание вариантов ответа для формы [Выбор одного ответа]")
+    public TaskPreviewPage checkSingleAnswerOptionsRandom() {
+        checkOptionsRandom(elsSingleAnswerOptions);
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Выбор одного ответа"
+     */
+    @Step("Нажать на кнопку варианта ответа {optionText}")
+    public TaskPreviewPage clickSingleAnswerOptionBtn(String optionText) {
+        elsSingleAnswerOptions.find(Condition.attribute("title", optionText)).click();
+        return this;
+    }
 
 
 }

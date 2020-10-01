@@ -9,7 +9,6 @@ import static com.codeborne.selenide.Selenide.$x;
 public class StringAnswer extends TaskConstructorPage {
 
 
-    private SelenideElement h = $x("");
     private SelenideElement elTaskFieldInput = $x("//input[contains(@placeholder,'Введите правильный ответ')]");
     private SelenideElement elAnswerIsCaseSensitiveCheckbox = $x("//input[@type='checkbox' and //label//p[contains(text(),'Учитывать регистр')]]");
 
