@@ -17,6 +17,7 @@ public class TaskPreviewPage {
     private TaskConstructorPage taskConstructorPage = new TaskConstructorPage();
     private SelenideElement elAnswerIsCorrectMsg = $x("//p[contains(text(),'Ответ верен')]");
     private SelenideElement elAnswerIsWrongMsg = $x("//p[contains(text(),'Ответ неверен')]");
+    private SelenideElement elTeacherVerificationMsg = $x("//p[contains(text(),'Ответ требует проверки учителем')]");
     private SelenideElement elAnswerBtn = $x("//button[.//*[contains(text(),'Ответить')]]");
     private SelenideElement elGoToEditBtn = $x("//button[.//*[contains(text(),'Назад к редактированию')]]");
 
@@ -37,6 +38,12 @@ public class TaskPreviewPage {
     @Step("Проверить, что сообщение [Ответ неверен] отображается")
     public TaskPreviewPage checkAnswerIsWrongMsgIsVisible() {
         elAnswerIsWrongMsg.shouldBe(Condition.visible);
+        return this;
+    }
+
+    @Step("Проверить, что сообщение [Ответ требует проверки учителем] отображается")
+    public TaskPreviewPage checkTeacherVerificationMsgIsVisible() {
+        elTeacherVerificationMsg.shouldBe(Condition.visible);
         return this;
     }
 
