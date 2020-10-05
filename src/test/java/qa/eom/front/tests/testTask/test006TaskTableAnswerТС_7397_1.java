@@ -1,9 +1,6 @@
 package qa.eom.front.tests.testTask;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import qa.eom.front.logic.ApiActionsForTests;
 import qa.eom.front.logic.GenerateText;
 import qa.eom.front.logic.UserCredentials;
@@ -56,38 +53,47 @@ public class test006TaskTableAnswerТС_7397_1 implements DesktopDriver, Authori
         tableAnswer
                 .enterNumberOfTableColumnsInput("2")
                 .enterNumberOfTableRowsInput("2")
+                .clickInsertTableBtn()
+                .checkTableCellsNumberEquals(3)
+                .clickCellMenuBtn(0)
+                .clickColumnMenuOptionBtn("справа")
+                .clickCellMenuBtn(2)
+                .clickRowMenuOptionBtn("ниже")
+                .checkTableCellsNumberEquals(8)
+                .clickCellMenuBtn(1)
+                .clickColumnMenuOptionBtn("Удалить")
+                .clickCellMenuBtn(1)
+                .clickRowMenuOptionBtn("Удалить")
+                .checkTableCellsNumberEquals(3)
+                .enterSymbolsToTableCellInput(0, "Неправильный ответ1")
+                .enterSymbolsToTableCellInput(1, "Неправильный ответ2")
+                .enterSymbolsToTableCellInput(2, "Правильный ответ1")
+                .clickCorrectAnswerTableModeBtn()
+                .clickCellInCorrectAnswerMode("Правильный ответ1")
+                .clickPreviewTaskBtn()
                 ;
-//                .enterSymbolsToAnswerFieldInput(1, "Правильный ответ2")
-//                .clickAddDistractorBtn()
-//                .clickAddDistractorBtn()
-//                .enterSymbolsToDistractorFieldInput(0, "Дистрактор1")
-//                .enterSymbolsToDistractorFieldInput(1, "Дистрактор2")
-//                .clickPreviewTaskBtn()
-//        ;
 
         taskPreviewPage
-                .checkMultipleAnswerOptionsRandom()
-                .clickMultipleAnswerOptionBtn("Правильный ответ1")
-                .clickMultipleAnswerOptionBtn("Дистрактор1")
+                .enterSymbolsToCellInput(0, "Неправильный ответ1")
                 .clickAnswerBtn()
                 .checkAnswerIsWrongMsgIsVisible()
-                .clickMultipleAnswerOptionBtn("Дистрактор1")
-                .clickMultipleAnswerOptionBtn("Правильный ответ2")
+                .enterSymbolsToCellInput(0, "Правильный ответ1")
+                .clickAnswerBtn()
                 .checkAnswerIsCorrectMsgIsVisible()
                 .clickGoToEditBtn()
-        ;
+                ;
 
         tableAnswer
                 .clickGoToSettingsBtn()
                 .fillAllSettingsFiedsAndSaveTask(taskFillData)
-        ;
+                ;
 
         idOfCreatedTask = tableAnswer.getIdOfCreatedTask();
 
     }
 
-    @AfterClass
-    void afterClass() {
+    @AfterMethod
+    void afterMethod() {
         deleteTaskApi(responseAuth.getAuthenticationToken(),
                 responseAuth.getProfiles().stream().findFirst().get().getId(),
                 idOfCreatedTask);

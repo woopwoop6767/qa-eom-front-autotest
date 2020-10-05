@@ -82,8 +82,8 @@ public class test004TaskMultipleAnswerEOM_01_4 implements DesktopDriver, Authori
 
     }
 
-    @AfterClass
-    void afterClass() {
+    @AfterMethod
+    void afterMethod() {
         deleteTaskApi(responseAuth.getAuthenticationToken(),
                 responseAuth.getProfiles().stream().findFirst().get().getId(),
                 idOfCreatedTask);

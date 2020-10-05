@@ -103,8 +103,8 @@ public class test003TaskInlineChoiceAnswerТС_7661_1 implements DesktopDriver, 
 
     }
 
-    @AfterClass
-    void afterClass() {
+    @AfterMethod
+    void afterMethod() {
         deleteTaskApi(responseAuth.getAuthenticationToken(),
                 responseAuth.getProfiles().stream().findFirst().get().getId(),
                 idOfCreatedTask);

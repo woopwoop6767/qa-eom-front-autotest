@@ -17,8 +17,10 @@ public class TableAnswer extends TaskConstructorPage {
     private SelenideElement elInsertTableBtn = $x("//button[.//span[contains(text(),'вставить таблицу')]]");
     private ElementsCollection elsCellsMenuBtns = $$x("//td//button");
     private ElementsCollection elsCellsFieldInputs = $$x("//td//textarea");
-    private ElementsCollection elsColumnMenuOptionsBtns = $$x("//ul[.//p[contains(text(),'Добавить колонку')]]//p");
-    private ElementsCollection elsRowMenuOptionsBtns = $$x("//ul[.//p[contains(text(),'Добавить строку')]]//p");
+    private ElementsCollection elsColumnMenuOptionsBtns = $$x("//*[@role='menu' and .//*[contains(text(),'Добавить колонку')]]//div[@style]//*");
+    private ElementsCollection elsRowMenuOptionsBtns = $$x("//*[@role='menu' and .//*[contains(text(),'Добавить строку')]]//div[@style]//*");
+    private SelenideElement elCorrectAnswerTableModeBtn = $x("//button[.//*[contains(text(),'Режим выбора правильного ответа')]]");
+    private SelenideElement elEditTableModeBtn = $x("//button[.//*[contains(text(),'Редактирование таблицы')]]");
 
 
     @Step("Ввести символы {symbols} в ячейку таблицы #{cellNumber}")
@@ -71,4 +73,23 @@ public class TableAnswer extends TaskConstructorPage {
         elsCellsFieldInputs.shouldHaveSize(cellsAmount);
         return this;
     }
+
+    @Step("Нажать кнопку [Режим выбора правильного ответа]")
+    public TableAnswer clickCorrectAnswerTableModeBtn() {
+        elCorrectAnswerTableModeBtn.click();
+        return this;
+    }
+
+    @Step("Нажать кнопку [Редактирование таблицы]")
+    public TableAnswer clickEditTableModeBtn() {
+        elEditTableModeBtn.click();
+        return this;
+    }
+
+    @Step("Нажать на ячейку {cellText} в режиме выбора правильного ответа")
+    public TableAnswer clickCellInCorrectAnswerMode(String cellText) {
+        elsCellsFieldInputs.find(Condition.exactText(cellText)).click();
+        return this;
+    }
+
 }

@@ -25,6 +25,7 @@ public class TaskPreviewPage {
     private ElementsCollection elsInlineChoiceAnswerInSelectorListBtns = $$x("//li[@role='option'][//ul[@role='listbox']]");
     private ElementsCollection elsMultipleAnswerOptions = $$x("//*[@title and @ style]");
     private ElementsCollection elsSingleAnswerOptions = $$x("//*[contains(text(),'Укажите правильный вариант ответа')]/..//*[@title]");
+    private ElementsCollection elsTableAnswerCellInputs = $$x("//textarea");
 
 
     @Step("Проверить, что сообщение [Ответ верен] отображается")
@@ -134,6 +135,15 @@ public class TaskPreviewPage {
     @Step("Нажать на кнопку варианта ответа {optionText}")
     public TaskPreviewPage clickSingleAnswerOptionBtn(String optionText) {
         elsSingleAnswerOptions.find(Condition.attribute("title", optionText)).click();
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Заполнение таблицы"
+     */
+    @Step("Ввести символы {symbols} в ячейку #{cellNumber}")
+    public TaskPreviewPage enterSymbolsToCellInput(int cellNumber, String symbols) {
+        elsTableAnswerCellInputs.get(cellNumber).sendKeys(Keys.chord(Keys.CONTROL, "a"), symbols);
         return this;
     }
 

@@ -91,8 +91,8 @@ public class test001TaskStringAnswerEOM_01_1 implements DesktopDriver, Authoriza
 
     }
 
-    @AfterClass
-    void afterClass() {
+    @AfterMethod
+    void afterMethod() {
         deleteTaskApi(responseAuth.getAuthenticationToken(),
                 responseAuth.getProfiles().stream().findFirst().get().getId(),
                 idOfCreatedTask);
