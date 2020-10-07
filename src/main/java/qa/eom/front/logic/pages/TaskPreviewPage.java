@@ -27,6 +27,11 @@ public class TaskPreviewPage {
     private ElementsCollection elsMultipleAnswerOptions = $$x("//*[@title and @ style]");
     private ElementsCollection elsSingleAnswerOptions = $$x("//*[contains(text(),'Укажите правильный вариант ответа')]/..//*[@title]");
     private ElementsCollection elsTableAnswerCellInputs = $$x("//textarea");
+    private ElementsCollection elsTimelineAnswerMarksPositions = $$x("//*[contains(@style,'min-width: calc(')]");
+    private ElementsCollection elsTimelineAnswerOptionsInBlock = $$x("//p[contains(text(),'Ответы')]/..//*[@title]");
+    private ElementsCollection elsTimelineAnswerMarksDescriptions = $$x("//*[contains(@class,'item-label-paper')]/..//*[@title]");
+    private ElementsCollection elsTimelineAnswerOptionsInMarkList = $$x("//ul//*[@title]");
+    private SelenideElement elsTimelineAnswerOptionsBlock = $x("//p[contains(text(),'Ответы:')]");
 
 
     @Step("Проверить, что сообщение [Ответ верен] отображается")
@@ -82,7 +87,9 @@ public class TaskPreviewPage {
      */
     @Step("Нажать на кнопку варианта ответа {optionText} в селекторе")
     public TaskPreviewPage clickInlineChoiceAnswerOptionInSelectorBtn(String optionText) {
-        elsInlineChoiceAnswerInSelectorListBtns.find(Condition.matchesText(optionText)).click();
+        elsInlineChoiceAnswerInSelectorListBtns
+                .find(Condition.matchesText(optionText))
+                .click();
         return this;
     }
 
@@ -141,7 +148,9 @@ public class TaskPreviewPage {
      */
     @Step("Нажать на кнопку варианта ответа {optionText}")
     public TaskPreviewPage clickSingleAnswerOptionBtn(String optionText) {
-        elsSingleAnswerOptions.find(Condition.attribute("title", optionText)).click();
+        elsSingleAnswerOptions
+                .find(Condition.attribute("title", optionText))
+                .click();
         return this;
     }
 
@@ -149,8 +158,64 @@ public class TaskPreviewPage {
      * Для формы ответа "Заполнение таблицы"
      */
     @Step("Ввести символы {symbols} в ячейку #{cellNumber}")
-    public TaskPreviewPage enterSymbolsToCellInput(int cellNumber, String symbols) {
-        elsTableAnswerCellInputs.get(cellNumber).sendKeys(Keys.chord(Keys.CONTROL, "a"), symbols);
+    public TaskPreviewPage enterTableAnswerSymbolsToCellInput(int cellNumber, String symbols) {
+        elsTableAnswerCellInputs
+                .get(cellNumber)
+                .sendKeys(Keys.chord(Keys.CONTROL, "a"), symbols);
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Лента времени"
+     */
+    @Step("Проверить, что отметка {markNumber} находится в позиции {percentPosition}")
+    public TaskPreviewPage checkTimelineAnswerMarkPosition(int markNumber, String percentPosition) {
+        elsTimelineAnswerMarksPositions
+                .get(markNumber)
+                .shouldHave(Condition.attribute("style",
+                        "min-width: calc(".concat(percentPosition).concat("%);")));
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Лента времени"
+     */
+    @Step("Нажать на вариант ответа {answerOption} в блоке ответов")
+    public TaskPreviewPage clickTimelineAnswerOptionInBlock(String answerOption) {
+        elsTimelineAnswerOptionsInBlock
+                .find(Condition.attribute("title", answerOption))
+                .click();
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Лента времени"
+     */
+    @Step("Нажать на отметку {markText}")
+    public TaskPreviewPage clickTimelineAnswerMark(String markText) {
+        elsTimelineAnswerMarksDescriptions
+                .find(Condition.attribute("title", markText))
+                .click();
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Лента времени"
+     */
+    @Step("Нажать на вариант ответа {option} в списке отметки")
+    public TaskPreviewPage clickTimelineAnswerOptionInMark(String option) {
+        elsTimelineAnswerOptionsInMarkList
+                .find(Condition.attribute("title", option))
+                .click();
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Лента времени"
+     */
+    @Step("Нажать на блок вариантов ответа [Ответы:]")
+    public TaskPreviewPage clickTimelineAnswerOptionsBlock() {
+        elsTimelineAnswerOptionsBlock.click();
         return this;
     }
 

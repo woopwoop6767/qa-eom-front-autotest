@@ -39,7 +39,7 @@ public class test001TaskStringAnswerEOM_01_1 implements DesktopDriver, Authoriza
         setAuthorizationCookies(responseAuth);
         stringAnswer = new StringAnswer();
         taskPreviewPage = new TaskPreviewPage();
-        taskFillData = new TaskFillData("MegabobaTask_" + generateRandomNumber(5),
+        taskFillData = new TaskFillData("AutoMegabobaTask_" + generateRandomNumber(5),
                 4, "Биология", "Бактерии. Грибы и лишайники", "Лишайники");
 
     }

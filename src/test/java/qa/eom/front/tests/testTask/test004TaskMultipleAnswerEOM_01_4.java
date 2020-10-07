@@ -36,7 +36,7 @@ public class test004TaskMultipleAnswerEOM_01_4 implements DesktopDriver, Authori
         setAuthorizationCookies(responseAuth);
         multipleAnswer = new MultipleAnswer();
         taskPreviewPage = new TaskPreviewPage();
-        taskFillData = new TaskFillData("MegabobaTask_" + generateRandomNumber(5),
+        taskFillData = new TaskFillData("AutoMegabobaTask_" + generateRandomNumber(5),
                 4, "Биология", "Бактерии. Грибы и лишайники", "Лишайники");
 
     }

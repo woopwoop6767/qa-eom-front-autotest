@@ -16,7 +16,6 @@ public interface ApiActionsForTests extends Specification {
                 .spec(getRequestSpecification("exam/rest/secure/task/".concat(taskId)))
                 .delete()
                 .then()
-                .log().all()
                 .spec(getResponseSpecification())
                 ;
     }

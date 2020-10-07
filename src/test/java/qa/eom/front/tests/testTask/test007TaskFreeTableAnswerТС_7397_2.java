@@ -39,7 +39,7 @@ public class test007TaskFreeTableAnswerТС_7397_2 implements DesktopDriver, Aut
         setAuthorizationCookies(responseAuth);
         tableAnswer = new TableAnswer();
         taskPreviewPage = new TaskPreviewPage();
-        taskFillData = new TaskFillData("MegabobaTask_" + generateRandomNumber(5),
+        taskFillData = new TaskFillData("AutoMegabobaTask_" + generateRandomNumber(5),
                 4, "Биология", "Бактерии. Грибы и лишайники", "Лишайники");
 
     }
@@ -63,7 +63,7 @@ public class test007TaskFreeTableAnswerТС_7397_2 implements DesktopDriver, Aut
                 ;
 
         taskPreviewPage
-                .enterSymbolsToCellInput(0, "Ответ")
+                .enterTableAnswerSymbolsToCellInput(0, "Ответ")
                 .clickAnswerBtn()
                 .checkTeacherVerificationMsgIsVisible()
                 .clickGoToEditBtn()

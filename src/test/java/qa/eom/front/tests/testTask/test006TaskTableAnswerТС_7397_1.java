@@ -36,7 +36,7 @@ public class test006TaskTableAnswerТС_7397_1 implements DesktopDriver, Authori
         setAuthorizationCookies(responseAuth);
         tableAnswer = new TableAnswer();
         taskPreviewPage = new TaskPreviewPage();
-        taskFillData = new TaskFillData("MegabobaTask_" + generateRandomNumber(5),
+        taskFillData = new TaskFillData("AutoMegabobaTask_" + generateRandomNumber(5),
                 4, "Биология", "Бактерии. Грибы и лишайники", "Лишайники");
 
     }
@@ -74,10 +74,10 @@ public class test006TaskTableAnswerТС_7397_1 implements DesktopDriver, Authori
                 ;
 
         taskPreviewPage
-                .enterSymbolsToCellInput(0, "Неправильный ответ1")
+                .enterTableAnswerSymbolsToCellInput(0, "Неправильный ответ1")
                 .clickAnswerBtn()
                 .checkAnswerIsWrongMsgIsVisible()
-                .enterSymbolsToCellInput(0, "Правильный ответ1")
+                .enterTableAnswerSymbolsToCellInput(0, "Правильный ответ1")
                 .clickAnswerBtn()
                 .checkAnswerIsCorrectMsgIsVisible()
                 .clickGoToEditBtn()
