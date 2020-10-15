@@ -21,8 +21,8 @@ public interface CookiesHandler {
     default void setAuthorizationCookies(ResponseAuth responseAuth) {
 
         setCookie("auth_token", responseAuth.getAuthenticationToken());
-        setCookie("profile_id", responseAuth.getProfiles().stream().findFirst().get().getId());
-        setCookie("profile_type", responseAuth.getProfiles().iterator().next().getRoles().get(0));
+        setCookie("profile_id", responseAuth.getProfiles().get(1).getId());
+        setCookie("profile_type", responseAuth.getProfiles().get(1).getType());
         refresh();
         SelenideElement userMenuButton = $x("//button[contains(@class,'userBtn')]");
         userMenuButton.shouldBe(Condition.visible);
