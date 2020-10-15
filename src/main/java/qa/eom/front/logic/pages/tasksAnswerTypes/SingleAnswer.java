@@ -1,5 +1,6 @@
 package qa.eom.front.logic.pages.tasksAnswerTypes;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
@@ -30,7 +31,9 @@ public class SingleAnswer extends TaskConstructorPage {
 
     @Step("Ввести символы {symbols} в поле ввода дистрактора #{distractorNumber}")
     public SingleAnswer enterSymbolsToDistractorFieldInput(int distractorNumber,String symbols) {
-        elsDistractorFieldsInput.get(distractorNumber).sendKeys(symbols);
+        elsDistractorFieldsInput
+                .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                .get(distractorNumber).sendKeys(symbols);
         sleep(110);
         return this;
     }

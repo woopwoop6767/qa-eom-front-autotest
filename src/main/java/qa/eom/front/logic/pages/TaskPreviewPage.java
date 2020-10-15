@@ -32,6 +32,7 @@ public class TaskPreviewPage {
     private ElementsCollection elsTimelineAnswerMarksDescriptions = $$x("//*[contains(@class,'item-label-paper')]/..//*[@title]");
     private ElementsCollection elsTimelineAnswerOptionsInMarkList = $$x("//ul//*[@title]");
     private SelenideElement elsTimelineAnswerOptionsBlock = $x("//p[contains(text(),'Ответы:')]");
+    private SelenideElement elFreeAnswerFieldInput = $x("//textarea[@id]");
 
 
     @Step("Проверить, что сообщение [Ответ верен] отображается")
@@ -216,6 +217,16 @@ public class TaskPreviewPage {
     @Step("Нажать на блок вариантов ответа [Ответы:]")
     public TaskPreviewPage clickTimelineAnswerOptionsBlock() {
         elsTimelineAnswerOptionsBlock.click();
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Открытый ответ"
+     */
+    @Step("Ввести символы {symbols} в ячейку #{cellNumber}")
+    public TaskPreviewPage enterFreeAnswerSymbolsToAnswerFieldInput(String symbols) {
+        elFreeAnswerFieldInput
+                .sendKeys(Keys.chord(Keys.CONTROL, "a"), symbols);
         return this;
     }
 
