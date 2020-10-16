@@ -1,5 +1,6 @@
 package qa.eom.front.logic.pages;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
@@ -33,6 +34,8 @@ public class TaskPreviewPage {
     private ElementsCollection elsTimelineAnswerOptionsInMarkList = $$x("//ul//*[@title]");
     private SelenideElement elsTimelineAnswerOptionsBlock = $x("//p[contains(text(),'Ответы:')]");
     private SelenideElement elFreeAnswerFieldInput = $x("//textarea[@id]");
+    private ElementsCollection elsGapTextMatchAnswerOptionsInBlock = $$x("//div[contains(@style,'solid')]//span");
+    private ElementsCollection elsGapTextMatchAnswerLocationsForAnsewerOptions = $$x("//*[contains(text(),'Заполните пропуски в тексте:')]/../*/*/div[not (contains(@style,'solid'))]/div/span");
 
 
     @Step("Проверить, что сообщение [Ответ верен] отображается")
@@ -230,5 +233,46 @@ public class TaskPreviewPage {
         return this;
     }
 
+    /**
+     * Для формы ответа "Подстановка слов в пропуски в тексте"
+     */
+    @Step("Проверить видимость {shouldBeVisible} варианта ответа {optionText} в блоке ответов")
+    public TaskPreviewPage checkGapTextMatchAnswerOptionVisibilityInBlock(String optionText, boolean shouldBeVisible) {
+        if (shouldBeVisible == true) {
+            elsGapTextMatchAnswerOptionsInBlock
+                    .shouldHave(CollectionCondition.sizeGreaterThan(0))
+                    .find(Condition.text(optionText))
+                    .shouldBe(Condition.visible);
+        } else {
+            elsGapTextMatchAnswerOptionsInBlock
+                    .shouldHave(CollectionCondition.sizeGreaterThanOrEqual(0))
+                    .find(Condition.text(optionText))
+                    .shouldNotBe(Condition.visible);
+        }
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Подстановка слов в пропуски в тексте"
+     */
+    @Step("Проверить видимость {shouldBeVisible} варианта ответа {optionText} в блоке ответов")
+    public TaskPreviewPage moveGapTextMatchAnswerOptionFromBlockToAnswerLocation(String optionText, int answerLocationNumber) {
+        elsGapTextMatchAnswerOptionsInBlock
+                .find(Condition.text(optionText))
+                .click();
+        elsGapTextMatchAnswerLocationsForAnsewerOptions
+                .get(answerLocationNumber)
+                .click();
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Подстановка слов в пропуски в тексте"
+     */
+    @Step("Проверить перемешивание вариантов ответа для формы [Подстановка слов в пропуски в тексте]")
+    public TaskPreviewPage checkGapTextMatchAnswerOptionsRandom() {
+        checkOptionsRandom(elsGapTextMatchAnswerOptionsInBlock);
+        return this;
+    }
 
 }

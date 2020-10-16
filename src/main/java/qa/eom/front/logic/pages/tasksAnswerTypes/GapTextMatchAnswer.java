@@ -6,9 +6,10 @@ import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import qa.eom.front.logic.pages.TaskConstructorPage;
+
+import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -26,7 +27,7 @@ public class GapTextMatchAnswer extends TaskConstructorPage {
     ElementsCollection elsLocationsForAnswerOptionsBtns = $$x("//figure");
     SelenideElement elSortSelector = $x("//*[contains(text(),'Сортировка:')]//following::*[@aria-haspopup][1]");
     ElementsCollection elsOptionsInSortSelectorList = $$x("//li[@role='option']");
-    ElementsCollection elsAnswerOptionsInDragAndBropBlock = $$x("//div[@title and @style]");
+    ElementsCollection elsAnswerOptionsInBlock = $$x("//div[@title and @style]");
 
 
     @Step("Ввести символы {symbols} в поле ввода задания")
@@ -57,7 +58,7 @@ public class GapTextMatchAnswer extends TaskConstructorPage {
     }
 
     @Step("Ввести символы {symbols} в поле варианта ответа #{optionNumber}")
-    public GapTextMatchAnswer enterSymboslToOptionField(int optionNumber, String symbols) {
+    public GapTextMatchAnswer enterSymbolsToOptionField(int optionNumber, String symbols) {
         elsOptionFieldInputs
                 .get(optionNumber)
                 .sendKeys(Keys.chord(Keys.CONTROL, "a"), symbols);
@@ -124,10 +125,16 @@ public class GapTextMatchAnswer extends TaskConstructorPage {
     }
 
     @Step("Переместить вариант ответа {optionName} из блока ответов в поле ввода ответа #{locationNumber}")
-    public GapTextMatchAnswer moveAnswerOptionFromDragAndBropBlock(String optionName, int locationNumber) {
-        elsAnswerOptionsInDragAndBropBlock
-                .find(Condition.attribute("title", optionName))
-                .dragAndDropTo(elsLocationsForAnswerOptionsBtns.get(locationNumber));
+    public GapTextMatchAnswer moveAnswerOptionFromOptionsBlock(String optionName, int locationNumber) {
+        Actions actions = new Actions(WebDriverRunner.getWebDriver());
+        actions
+                .moveToElement(elsAnswerOptionsInBlock
+                        .find(Condition.attribute("title", optionName)))
+                .pause(Duration.ofMillis(100))
+                .clickAndHold()
+                .moveToElement(elsLocationsForAnswerOptionsBtns.get(locationNumber))
+                .moveByOffset(1, 0)
+                .release().perform();
         return this;
     }
 

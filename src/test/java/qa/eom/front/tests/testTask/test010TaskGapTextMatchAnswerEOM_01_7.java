@@ -66,21 +66,38 @@ public class test010TaskGapTextMatchAnswerEOM_01_7 implements DesktopDriver, Aut
                 .clickEditAnswerOptionsBtn()
                 .clickAddOptioBtn()
                 .clickAddOptioBtn()
-                .enterSymboslToOptionField(0, "Ответ1")
-                .enterSymboslToOptionField(1, "Ответ2")
-                .enterSymboslToOptionField(2, "Ответ3")
+                .enterSymbolsToOptionField(0, "Ответ2")
+                .enterSymbolsToOptionField(1, "Ответ1")
+                .enterSymbolsToOptionField(2, "Ответ3")
                 .clickCloseModalEditOptionsBtn()
-                .moveAnswerOptionFromDragAndBropBlock("Ответ1", 0)
-                .moveAnswerOptionFromDragAndBropBlock("Ответ2", 1)
-                .moveAnswerOptionFromDragAndBropBlock("Ответ3", 2)
+                .moveAnswerOptionFromOptionsBlock("Ответ1", 0)
+                .moveAnswerOptionFromOptionsBlock("Ответ2", 1)
+                .moveAnswerOptionFromOptionsBlock("Ответ3", 2)
+                .clickAnswerModeRadioBtn("Перетаскивание")
                 .clickPreviewTaskBtn()
                 ;
 
-
         taskPreviewPage
-                .enterFreeAnswerSymbolsToAnswerFieldInput("Ответ для учителя")
-                .clickAnswerBtn()
-                .checkTeacherVerificationMsgIsVisible()
+                .moveGapTextMatchAnswerOptionFromBlockToAnswerLocation("Ответ1", 0)
+                .checkGapTextMatchAnswerOptionVisibilityInBlock("Ответ1", false)
+                .clickGoToEditBtn()
+                ;
+        gapTextMatchAnswer
+                .clickAnswerModeRadioBtn("Копирование")
+                .clickPreviewTaskBtn()
+                ;
+        taskPreviewPage
+                .moveGapTextMatchAnswerOptionFromBlockToAnswerLocation("Ответ1", 0)
+                .checkGapTextMatchAnswerOptionVisibilityInBlock("Ответ1", true)
+                .clickGoToEditBtn()
+                ;
+        gapTextMatchAnswer
+                .clickSortSelectorBtn()
+                .clickOptionInSortSelectorBtn("В случайном порядке")
+                .clickPreviewTaskBtn()
+                ;
+        taskPreviewPage
+                .checkGapTextMatchAnswerOptionsRandom()
                 .clickGoToEditBtn()
                 ;
 
