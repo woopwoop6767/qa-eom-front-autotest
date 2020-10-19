@@ -7,6 +7,7 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class TaskPreviewPage {
     private SelenideElement elsTimelineAnswerOptionsBlock = $x("//p[contains(text(),'Ответы:')]");
     private SelenideElement elFreeAnswerFieldInput = $x("//textarea[@id]");
     private ElementsCollection elsGapTextMatchAnswerOptionsInBlock = $$x("//div[contains(@style,'solid')]//span");
-    private ElementsCollection elsGapTextMatchAnswerLocationsForAnsewerOptions = $$x("//*[contains(text(),'Заполните пропуски в тексте:')]/../*/*/div[not (contains(@style,'solid'))]/div/span");
+    private ElementsCollection elsGapTextMatchAnswerLocations = $$x("//*[contains(text(),'Заполните пропуски в тексте:')]/../*/*/div[not (contains(@style,'solid'))]/div/span");
 
 
     @Step("Проверить, что сообщение [Ответ верен] отображается")
@@ -107,7 +108,7 @@ public class TaskPreviewPage {
     }
 
     /**
-     * Для форм ответа: "Выбор нескольких вариантов ответа"
+     * Для форм ответа: "Выбор нескольких вариантов ответа", "Подстановка слов в пропуски в тексте".
      */
     @Step("Проверить перемешивание по тексту ответов для формы {answerOptionsOrder}")
     private boolean checkOptionsRandom(ElementsCollection answerOptionsOrder) {
@@ -127,6 +128,24 @@ public class TaskPreviewPage {
             randomFailCounter++;
         }
         throw new RuntimeException("Варианты ответов не перемешиваются");
+    }
+
+    /**
+     * Для форм ответа: "Подстановка слов в пропуски в тексте".
+     */
+    @Step("Проверить алфавитрый порядок вариантов ответа в блоке {answerOptionsOrder}")
+    private boolean checkOptionsAlphabetOrder(ElementsCollection answerOptionsOrder) {
+        List<String> optionsOrder = answerOptionsOrder.stream()
+                .map(val -> val.getText()).collect(Collectors.toList());
+        List<String> optionsToSort = answerOptionsOrder.stream()
+                .map(val -> val.getText()).collect(Collectors.toList());
+        Collections.sort(optionsToSort);
+
+        if (optionsToSort.equals(optionsOrder)) {
+            return true;
+        }
+
+        throw new RuntimeException("Варианты ответов в блоке не расставляются в алфавитном порядке");
     }
 
     /**
@@ -255,12 +274,20 @@ public class TaskPreviewPage {
     /**
      * Для формы ответа "Подстановка слов в пропуски в тексте"
      */
-    @Step("Проверить видимость {shouldBeVisible} варианта ответа {optionText} в блоке ответов")
-    public TaskPreviewPage moveGapTextMatchAnswerOptionFromBlockToAnswerLocation(String optionText, int answerLocationNumber) {
+    @Step("Нажать на вариант {optionText} ответа в блоке ответов")
+    public TaskPreviewPage clickGapTextMatchAnswerOptionInBlock(String optionText) {
         elsGapTextMatchAnswerOptionsInBlock
                 .find(Condition.text(optionText))
                 .click();
-        elsGapTextMatchAnswerLocationsForAnsewerOptions
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Подстановка слов в пропуски в тексте"
+     */
+    @Step("Нажать на поле ответа {answerLocationNumber}")
+    public TaskPreviewPage clickGapTextMatchAnswerLocation(int answerLocationNumber) {
+        elsGapTextMatchAnswerLocations
                 .get(answerLocationNumber)
                 .click();
         return this;
@@ -272,6 +299,27 @@ public class TaskPreviewPage {
     @Step("Проверить перемешивание вариантов ответа для формы [Подстановка слов в пропуски в тексте]")
     public TaskPreviewPage checkGapTextMatchAnswerOptionsRandom() {
         checkOptionsRandom(elsGapTextMatchAnswerOptionsInBlock);
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Подстановка слов в пропуски в тексте"
+     */
+    @Step("Проверить алфавитрый порядок вариантов ответа в блоке")
+    public TaskPreviewPage checkGapTextMatchAnswerOptionsAlphabetOrder() {
+        checkOptionsAlphabetOrder(elsGapTextMatchAnswerOptionsInBlock);
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Подстановка слов в пропуски в тексте"
+     */
+    @Step("Проверить что варианты ответов не перемешиваются в блоке")
+    public TaskPreviewPage checkGapTextMatchAnswerOptionsOrder(String optionText, int optionPosition) {
+        elsGapTextMatchAnswerOptionsInBlock
+                .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                .get(optionPosition)
+                .shouldHave(Condition.text(optionText));
         return this;
     }
 

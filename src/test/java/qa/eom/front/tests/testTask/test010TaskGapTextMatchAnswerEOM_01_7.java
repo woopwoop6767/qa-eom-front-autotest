@@ -78,7 +78,8 @@ public class test010TaskGapTextMatchAnswerEOM_01_7 implements DesktopDriver, Aut
                 ;
 
         taskPreviewPage
-                .moveGapTextMatchAnswerOptionFromBlockToAnswerLocation("Ответ1", 0)
+                .clickGapTextMatchAnswerOptionInBlock("Ответ1")
+                .clickGapTextMatchAnswerLocation(0)
                 .checkGapTextMatchAnswerOptionVisibilityInBlock("Ответ1", false)
                 .clickGoToEditBtn()
                 ;
@@ -87,8 +88,29 @@ public class test010TaskGapTextMatchAnswerEOM_01_7 implements DesktopDriver, Aut
                 .clickPreviewTaskBtn()
                 ;
         taskPreviewPage
-                .moveGapTextMatchAnswerOptionFromBlockToAnswerLocation("Ответ1", 0)
+                .clickGapTextMatchAnswerOptionInBlock("Ответ1")
+                .clickGapTextMatchAnswerLocation(0)
                 .checkGapTextMatchAnswerOptionVisibilityInBlock("Ответ1", true)
+                .clickGoToEditBtn()
+                ;
+        gapTextMatchAnswer
+                .clickSortSelectorBtn()
+                .clickOptionInSortSelectorBtn("В алфавитном порядке")
+                .clickPreviewTaskBtn()
+                ;
+        taskPreviewPage
+                .checkGapTextMatchAnswerOptionsAlphabetOrder()
+                .clickGoToEditBtn()
+                ;
+        gapTextMatchAnswer
+                .clickSortSelectorBtn()
+                .clickOptionInSortSelectorBtn("Не перемешивать")
+                .clickPreviewTaskBtn()
+                ;
+        taskPreviewPage
+                .checkGapTextMatchAnswerOptionsOrder("Ответ2", 0)
+                .checkGapTextMatchAnswerOptionsOrder("Ответ1", 1)
+                .checkGapTextMatchAnswerOptionsOrder("Ответ3", 2)
                 .clickGoToEditBtn()
                 ;
         gapTextMatchAnswer
@@ -98,6 +120,22 @@ public class test010TaskGapTextMatchAnswerEOM_01_7 implements DesktopDriver, Aut
                 ;
         taskPreviewPage
                 .checkGapTextMatchAnswerOptionsRandom()
+                .clickGapTextMatchAnswerOptionInBlock("Ответ2")
+                .clickGapTextMatchAnswerLocation(0)
+                .clickGapTextMatchAnswerOptionInBlock("Ответ1")
+                .clickGapTextMatchAnswerLocation(1)
+                .clickGapTextMatchAnswerOptionInBlock("Ответ3")
+                .clickGapTextMatchAnswerLocation(2)
+                .clickAnswerBtn()
+                .checkAnswerIsWrongMsgIsVisible()
+                .clickGapTextMatchAnswerLocation(0)
+                .clickGapTextMatchAnswerLocation(1)
+                .clickGapTextMatchAnswerOptionInBlock("Ответ1")
+                .clickGapTextMatchAnswerLocation(0)
+                .clickGapTextMatchAnswerOptionInBlock("Ответ2")
+                .clickGapTextMatchAnswerLocation(1)
+                .clickAnswerBtn()
+                .checkAnswerIsCorrectMsgIsVisible()
                 .clickGoToEditBtn()
                 ;
 
