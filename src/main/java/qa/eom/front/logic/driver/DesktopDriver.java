@@ -12,7 +12,7 @@ public interface DesktopDriver extends GetEnv, Capabilities {
     default void initDriver() {
         String grid = getEnv("grid_url");
         if (grid.equals("default")) {
-            initLocalCapabiities();
+            initLocalCapabilities();
         } else {
             initRemoteCapabilities(grid, getEnv("browser"));
         }

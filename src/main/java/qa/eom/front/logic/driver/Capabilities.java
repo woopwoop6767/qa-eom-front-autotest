@@ -13,7 +13,7 @@ import java.util.logging.Level;
 public interface Capabilities {
 
 
-    default void initLocalCapabiities() {
+    default void initLocalCapabilities() {
 
         Configuration.timeout = 10000;
         Configuration.startMaximized = true;

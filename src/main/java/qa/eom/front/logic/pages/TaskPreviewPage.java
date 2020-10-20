@@ -37,6 +37,10 @@ public class TaskPreviewPage {
     private SelenideElement elFreeAnswerFieldInput = $x("//textarea[@id]");
     private ElementsCollection elsGapTextMatchAnswerOptionsInBlock = $$x("//div[contains(@style,'solid')]//span");
     private ElementsCollection elsGapTextMatchAnswerLocations = $$x("//*[contains(text(),'Заполните пропуски в тексте:')]/../*/*/div[not (contains(@style,'solid'))]/div/span");
+    private ElementsCollection elsGroupAnswerOptionsInBlock = $$x("//span[contains(text(),'Ответы')]/../..//div[@title]//span");
+    private ElementsCollection elsGroupAnswerGroupBlocks = $$x("//button[@title]/..//div[@title]//span");
+    private ElementsCollection elsGroupAnswerOptionsInGroups = $$x("//button[contains(@title,'вернуть')]/../../..//*[contains(@style,'transition-duration')]//span");
+
 
 
     @Step("Проверить, что сообщение [Ответ верен] отображается")
@@ -108,7 +112,7 @@ public class TaskPreviewPage {
     }
 
     /**
-     * Для форм ответа: "Выбор нескольких вариантов ответа", "Подстановка слов в пропуски в тексте".
+     * Для форм ответа: "Выбор нескольких вариантов ответа", "Подстановка слов в пропуски в тексте", "Распределение элементов по группам".
      */
     @Step("Проверить перемешивание по тексту ответов для формы {answerOptionsOrder}")
     private boolean checkOptionsRandom(ElementsCollection answerOptionsOrder) {
@@ -320,6 +324,64 @@ public class TaskPreviewPage {
                 .shouldBe(CollectionCondition.sizeGreaterThan(0))
                 .get(optionPosition)
                 .shouldHave(Condition.text(optionText));
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Распределение элементов по группам"
+     */
+    @Step("Проверить перемешивание вариантов ответа для формы [Распределение элементов по группам]")
+    public TaskPreviewPage checkGroupAnswerAnswerOptionsRandom() {
+        checkOptionsRandom(elsGroupAnswerOptionsInBlock);
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Распределение элементов по группам"
+     */
+    @Step("Нажать на вариант ответа {answerText} в блоке ответов")
+    public TaskPreviewPage clickGroupAnswerOptionInBlock(String  answerText) {
+        elsGroupAnswerOptionsInBlock
+                .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                .find(Condition.exactText(answerText))
+                .click();
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Распределение элементов по группам"
+     */
+    @Step("Нажать на блок группы {groupText}")
+    public TaskPreviewPage clickGroupAnswerGroupBlock(String  groupText) {
+        elsGroupAnswerGroupBlocks
+                .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                .find(Condition.exactText(groupText))
+                .click();
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Распределение элементов по группам"
+     */
+    @Step("Нажать кнопку открытия/закрытия блока группы {groupText}")
+    public TaskPreviewPage clickGroupAnswerListBtn(String  groupText) {
+        elsGroupAnswerGroupBlocks
+                .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                .find(Condition.exactText(groupText))
+                .$x("./ancestor::div/button[contains(@title,'вернуть')]")
+                .click();
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Распределение элементов по группам"
+     */
+    @Step("Нажать на вариант ответа {answerText} в группе")
+    public TaskPreviewPage clickGroupAnswerOptionInGroup(String  answerText) {
+        elsGroupAnswerOptionsInGroups
+                .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                .find(Condition.exactText(answerText))
+                .click();
         return this;
     }
 
