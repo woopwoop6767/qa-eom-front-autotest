@@ -29,7 +29,7 @@ public class OrderAnswer extends TaskConstructorPage {
     @Step("Ввести символы {symbols} в поле ответа #{answerNumber}")
     public OrderAnswer enterSymbolsToAnswerFieldInput(String symbols, int answerNumber) {
         elsAnswerInputs
-                .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                .shouldBe(CollectionCondition.sizeGreaterThanOrEqual(answerNumber + 1))
                 .get(answerNumber)
                 .sendKeys(symbols);
         sleep(110);
@@ -41,7 +41,7 @@ public class OrderAnswer extends TaskConstructorPage {
         ((JavascriptExecutor) WebDriverRunner.getWebDriver())
                 .executeScript(jsScriptForClickToInvisibleElements,
                         elsDeleteAnswerBtns
-                                .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                                .shouldBe(CollectionCondition.sizeGreaterThanOrEqual(answerNumber + 1))
                                 .get(answerNumber));
         return this;
     }

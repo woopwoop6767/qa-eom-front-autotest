@@ -12,13 +12,13 @@ import qa.eom.front.logic.driver.CookiesHandler;
 import qa.eom.front.logic.driver.DesktopDriver;
 import qa.eom.front.logic.dto.TaskFillData;
 import qa.eom.front.logic.pages.TaskPreviewPage;
-import qa.eom.front.logic.pages.tasksAnswerTypes.OrderAnswer;
+import qa.eom.front.logic.pages.tasksAnswerTypes.MatchAnswer;
 import qa.eom.front.logic.pojo.authresponse.ResponseAuth;
 
-public class test012TaskOrderAnswerEOM_01_11 implements DesktopDriver, Authorization, CookiesHandler, GenerateText, ApiActionsForTests {
+public class test013TaskMatchAnswerEOM_01_12 implements DesktopDriver, Authorization, CookiesHandler, GenerateText, ApiActionsForTests {
 
     private ResponseAuth responseAuth;
-    private OrderAnswer orderAnswer;
+    private MatchAnswer matchAnswer;
     private TaskPreviewPage taskPreviewPage;
     private TaskFillData taskFillData;
     private String idOfCreatedTask;
@@ -37,7 +37,7 @@ public class test012TaskOrderAnswerEOM_01_11 implements DesktopDriver, Authoriza
     void setUp() {
 
         setAuthorizationCookies(responseAuth);
-        orderAnswer = new OrderAnswer();
+        matchAnswer = new MatchAnswer();
         taskPreviewPage = new TaskPreviewPage();
         taskFillData = new TaskFillData("AutoMegabobaTask_" + generateRandomNumber(5),
                 4, "Биология", "Бактерии. Грибы и лишайники", "Лишайники");
@@ -47,20 +47,23 @@ public class test012TaskOrderAnswerEOM_01_11 implements DesktopDriver, Authoriza
     @Test
     void test() {
 
-        orderAnswer
+        matchAnswer
                 .openTaskConstructorPage()
                 .clickAnswerFormSelector()
-                .clickAnswerFormBtnInSelector("Упорядочивание элементов")
+                .clickAnswerFormBtnInSelector("Установление соответствия")
                 .enterSymbolsToQuestionField("a question...")
                 ;
 
-        orderAnswer
-                .clickAddAnswerBtn()
-                .clickAddAnswerBtn()
-                .clickAddAnswerBtn()
-                .checkNumberOfAnswersEquals(4)
-                .clickDeleteAnswerBtn(3)
-                .checkNumberOfAnswersEquals(3)
+        matchAnswer
+                .clickAddMatchingBtn()
+                .clickAddMatchingBtn()
+                .clickAddMatchingBtn()
+                .checkNumberOfMatchingEquals(4)
+                .clickDeleteMatchingBtn(2)
+                .checkNumberOfMatchingEquals(3)
+                .enterSymbolsToTaskFieldInput("Соответствие1", 0)
+                .enterSymbolsToTaskFieldInput("Соответствие2", 1)
+                .enterSymbolsToTaskFieldInput("Соответствие3", 2)
                 .enterSymbolsToAnswerFieldInput("Ответ1", 0)
                 .enterSymbolsToAnswerFieldInput("Ответ2", 1)
                 .enterSymbolsToAnswerFieldInput("Ответ3", 2)
@@ -68,24 +71,31 @@ public class test012TaskOrderAnswerEOM_01_11 implements DesktopDriver, Authoriza
                 ;
 
         taskPreviewPage
-                .checkOrderAnswerAnswerOptionsRandom()
-                .moveOrderAnswerOptionToPosition("Ответ1", 1)
+//                .checkGlobalAnswerOptionsRandom()   // Проверка отключена из-за подозрения нецелесообразности проверять рандом в предпросмотре
+                .checkMatchAnswerMatchingsRandom()
+                .clickGlobalAnswerOptionInBlock("Ответ1")
+                .clickMatchAnswerMatchingBlock("Соответствие2")
+                .clickGlobalAnswerOptionInBlock("Ответ2")
+                .clickMatchAnswerMatchingBlock("Соответствие1")
+                .clickGlobalAnswerOptionInBlock("Ответ3")
+                .clickMatchAnswerMatchingBlock("Соответствие3")
                 .clickAnswerBtn()
                 .checkAnswerIsWrongMsgIsVisible()
-                .moveOrderAnswerOptionToPosition("Ответ1", 0)
-                .moveOrderAnswerOptionToPosition("Ответ2", 1)
-                .moveOrderAnswerOptionToPosition("Ответ3", 2)
+                .clickMatchAnswerOptionInMatching("Ответ1")
+                .clickMatchAnswerMatchingBlock("Соответствие1")
+                .clickGlobalAnswerOptionInBlock("Ответ2")
+                .clickMatchAnswerMatchingBlock("Соответствие2")
                 .clickAnswerBtn()
                 .checkAnswerIsCorrectMsgIsVisible()
                 .clickGoToEditBtn()
                 ;
 
-        orderAnswer
+        matchAnswer
                 .clickGoToSettingsBtn()
                 .fillAllSettingsFiedsAndSaveTask(taskFillData)
                 ;
 
-        idOfCreatedTask = orderAnswer.getIdOfCreatedTask();
+        idOfCreatedTask = matchAnswer.getIdOfCreatedTask();
 
     }
 
@@ -95,4 +105,5 @@ public class test012TaskOrderAnswerEOM_01_11 implements DesktopDriver, Authoriza
                 responseAuth.getProfiles().stream().findFirst().get().getId(),
                 idOfCreatedTask);
     }
+
 }

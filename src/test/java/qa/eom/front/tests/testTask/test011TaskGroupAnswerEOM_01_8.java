@@ -77,14 +77,14 @@ public class test011TaskGroupAnswerEOM_01_8 implements DesktopDriver, Authorizat
                 ;
 
         taskPreviewPage
-                .checkGroupAnswerAnswerOptionsRandom()
-                .clickGroupAnswerOptionInBlock("Первый ответ")
+                .checkGlobalAnswerOptionsRandom()
+                .clickGlobalAnswerOptionInBlock("Первый ответ")
                 .clickGroupAnswerGroupBlock("Вторая группа")
-                .clickGroupAnswerOptionInBlock("Второй ответ")
+                .clickGlobalAnswerOptionInBlock("Второй ответ")
                 .clickGroupAnswerGroupBlock("Первая группа")
-                .clickGroupAnswerOptionInBlock("Третий ответ")
+                .clickGlobalAnswerOptionInBlock("Третий ответ")
                 .clickGroupAnswerGroupBlock("Вторая группа")
-                .clickGroupAnswerOptionInBlock("Четвёртый ответ")
+                .clickGlobalAnswerOptionInBlock("Четвёртый ответ")
                 .clickGroupAnswerGroupBlock("Третья группа")
                 .clickAnswerBtn()
                 .checkAnswerIsWrongMsgIsVisible()

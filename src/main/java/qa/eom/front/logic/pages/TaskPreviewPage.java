@@ -37,12 +37,12 @@ public class TaskPreviewPage {
     private SelenideElement elFreeAnswerFieldInput = $x("//textarea[@id]");
     private ElementsCollection elsGapTextMatchAnswerOptionsInBlock = $$x("//div[contains(@style,'solid')]//span");
     private ElementsCollection elsGapTextMatchAnswerLocations = $$x("//*[contains(text(),'Заполните пропуски в тексте:')]/../*/*/div[not (contains(@style,'solid'))]/div/span");
-    private ElementsCollection elsGroupAnswerOptionsInBlock = $$x("//span[contains(text(),'Ответы')]/../..//div[@title]//span");
+    private ElementsCollection elsGlobalAnswerOptionsInBlock = $$x("//span[contains(text(),'Ответы')]/../..//div[@title]//span");
     private ElementsCollection elsGroupAnswerGroupBlocks = $$x("//button[@title]/..//div[@title]//span");
     private ElementsCollection elsGroupAnswerOptionsInGroups = $$x("//button[contains(@title,'вернуть')]/../../..//*[contains(@style,'transition-duration')]//span");
     private ElementsCollection elsOrderAnswerOptions = $$x("//span[contains(text(),'Расположите элементы')]/..//div[@title]//span");
-    private ElementsCollection elsOptionArrowUpBtns = $$x("//span[contains(text(),'Вопрос')]/../..//*[name()='svg'][1]");
-    private ElementsCollection elsOptionArrowDownBtns = $$x("//span[contains(text(),'Вопрос')]/../..//*[name()='svg'][2]");
+    private ElementsCollection elsMatchAnswerMatchings = $$x("//*[name()='path' and contains(@d,'M4')]/../..//*[@title]//span");
+    private ElementsCollection elsMatchAnswerOptionsInMatchings = $$x("//*[contains(@style,'245')]//*[contains(@style,'opacity')]//span");
 
 
 
@@ -122,11 +122,11 @@ public class TaskPreviewPage {
     private boolean checkOptionsRandom(ElementsCollection answerOptionsOrder) {
         int randomFailCounter = 0;
         while (randomFailCounter < 5) {
-            List<String> answerOptionsOrderOne = answerOptionsOrder.stream()
+            List<String> answerOptionsOrderOne = answerOptionsOrder.shouldBe(CollectionCondition.sizeGreaterThan(1)).stream()
                     .map(val -> val.getText()).collect(Collectors.toList());
             clickGoToEditBtn();
             taskConstructorPage.clickPreviewTaskBtn();
-            List<String> answerOptionsOrderTwo = answerOptionsOrder.stream()
+            List<String> answerOptionsOrderTwo = answerOptionsOrder.shouldBe(CollectionCondition.sizeGreaterThan(1)).stream()
                     .map(val -> val.getText()).collect(Collectors.toList());
             for (int i = 0; i < answerOptionsOrder.size(); i++) {
                 if (!answerOptionsOrderOne.get(i).equals(answerOptionsOrderTwo.get(i))) {
@@ -325,27 +325,27 @@ public class TaskPreviewPage {
     @Step("Проверить что варианты ответов не перемешиваются в блоке")
     public TaskPreviewPage checkGapTextMatchAnswerOptionsOrder(String optionText, int optionPosition) {
         elsGapTextMatchAnswerOptionsInBlock
-                .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                .shouldBe(CollectionCondition.sizeGreaterThanOrEqual(optionPosition + 1))
                 .get(optionPosition)
                 .shouldHave(Condition.text(optionText));
         return this;
     }
 
     /**
-     * Для формы ответа "Распределение элементов по группам"
+     * Для форм ответа: "Распределение элементов по группам", "Установление соответствия".
      */
-    @Step("Проверить перемешивание вариантов ответа для формы [Распределение элементов по группам]")
-    public TaskPreviewPage checkGroupAnswerAnswerOptionsRandom() {
-        checkOptionsRandom(elsGroupAnswerOptionsInBlock);
+    @Step("Проверить перемешивание вариантов ответа в блоке ответов")
+    public TaskPreviewPage checkGlobalAnswerOptionsRandom() {
+        checkOptionsRandom(elsGlobalAnswerOptionsInBlock);
         return this;
     }
 
     /**
-     * Для формы ответа "Распределение элементов по группам"
+     * Для форм ответа: "Распределение элементов по группам", "Установление соответствия".
      */
     @Step("Нажать на вариант ответа {answerText} в блоке ответов")
-    public TaskPreviewPage clickGroupAnswerOptionInBlock(String answerText) {
-        elsGroupAnswerOptionsInBlock
+    public TaskPreviewPage clickGlobalAnswerOptionInBlock(String answerText) {
+        elsGlobalAnswerOptionsInBlock
                 .shouldBe(CollectionCondition.sizeGreaterThan(0))
                 .find(Condition.exactText(answerText))
                 .click();
@@ -434,6 +434,39 @@ public class TaskPreviewPage {
         if (failCounter >= 10) {
             throw new RuntimeException("Ошибка сортировки. Превышено число попыток перемещения варианта ответа.");
         }
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Установление соответствия"
+     */
+    @Step("Проверить перемешивание соответствий для формы [Установление соответствия]")
+    public TaskPreviewPage checkMatchAnswerMatchingsRandom() {
+        checkOptionsRandom(elsMatchAnswerMatchings);
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Установление соответствия"
+     */
+    @Step("Нажать на соответствие {matchingText}")
+    public TaskPreviewPage clickMatchAnswerMatchingBlock(String matchingText) {
+        elsMatchAnswerMatchings
+                .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                .find(Condition.exactText(matchingText))
+                .click();
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Установление соответствия"
+     */
+    @Step("Нажать на вариант ответа {answerText} в соответствии")
+    public TaskPreviewPage clickMatchAnswerOptionInMatching(String answerText) {
+        elsMatchAnswerOptionsInMatchings
+                .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                .find(Condition.exactText(answerText))
+                .click();
         return this;
     }
 
