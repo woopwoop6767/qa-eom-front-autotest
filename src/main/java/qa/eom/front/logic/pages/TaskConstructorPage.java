@@ -57,7 +57,7 @@ public class TaskConstructorPage implements Specification {
 
      @Step("Нажать кнопку выбора формы ответа {answerForm} в селекторе [Форма ответа]")
      public TaskConstructorPage clickAnswerFormBtnInSelector(String answerForm) {
-         elsInSelectorAnswerFormsList.find(Condition.text(answerForm)).click();
+         elsInSelectorAnswerFormsList.find(Condition.exactText(answerForm)).click();
          return this;
      }
 

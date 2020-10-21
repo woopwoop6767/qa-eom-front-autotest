@@ -14,12 +14,12 @@ public class GroupAnswer extends TaskConstructorPage {
 
 
     private String jsScriptForClickToInvisibleElements = "arguments[0].click();";
-    SelenideElement elAddGroupBtn = $x("//button[.//*[contains(text(),'добавить группу')]]");
-    ElementsCollection elsAddAnswerBtns = $$x("//button[.//*[contains(text(),'добавить ответ')]]");
-    ElementsCollection elsGroupNameInputs = $$x("//*[contains(text(),'Введите название группы')]/..//*[@role='textbox']");
-    ElementsCollection elsGroupAnswerInputs = $$x("//*[contains(text(),'Введите ответ')]/..//*[@role='textbox']");
-    ElementsCollection elsDeleteGroupBtns = $$x("//*[contains(text(),'Ответов в группе')]/../../../../div[2]//button");
-    ElementsCollection elsDeleteAnswerBtns = $$x("//*[contains(text(),'Ответ № ')]/../../../..//button[not (@title)]");
+    private SelenideElement elAddGroupBtn = $x("//button[.//*[contains(text(),'добавить группу')]]");
+    private ElementsCollection elsAddAnswerBtns = $$x("//button[.//*[contains(text(),'добавить ответ')]]");
+    private ElementsCollection elsGroupNameInputs = $$x("//*[contains(text(),'Введите название группы')]/..//*[@role='textbox']");
+    private ElementsCollection elsGroupAnswerInputs = $$x("//*[contains(text(),'Введите ответ')]/..//*[@role='textbox']");
+    private ElementsCollection elsDeleteGroupBtns = $$x("//*[contains(text(),'Ответов в группе')]/../../../../div[2]//button");
+    private ElementsCollection elsDeleteAnswerBtns = $$x("//*[contains(text(),'Ответ № ')]/../../../..//button[not (@title)]");
 
 
 
@@ -68,7 +68,7 @@ public class GroupAnswer extends TaskConstructorPage {
         return this;
     }
 
-    @Step("Нажать кнопку удаления [x] ответа #{groupNumber}")
+    @Step("Нажать кнопку удаления [x] ответа #{answerNumber}")
     public GroupAnswer clickDeleteAnswerBtn(int answerNumber) {
         ((JavascriptExecutor) WebDriverRunner.getWebDriver())
                 .executeScript(jsScriptForClickToInvisibleElements,

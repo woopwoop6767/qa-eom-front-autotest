@@ -40,6 +40,9 @@ public class TaskPreviewPage {
     private ElementsCollection elsGroupAnswerOptionsInBlock = $$x("//span[contains(text(),'Ответы')]/../..//div[@title]//span");
     private ElementsCollection elsGroupAnswerGroupBlocks = $$x("//button[@title]/..//div[@title]//span");
     private ElementsCollection elsGroupAnswerOptionsInGroups = $$x("//button[contains(@title,'вернуть')]/../../..//*[contains(@style,'transition-duration')]//span");
+    private ElementsCollection elsOrderAnswerOptions = $$x("//span[contains(text(),'Расположите элементы')]/..//div[@title]//span");
+    private ElementsCollection elsOptionArrowUpBtns = $$x("//span[contains(text(),'Вопрос')]/../..//*[name()='svg'][1]");
+    private ElementsCollection elsOptionArrowDownBtns = $$x("//span[contains(text(),'Вопрос')]/../..//*[name()='svg'][2]");
 
 
 
@@ -112,7 +115,8 @@ public class TaskPreviewPage {
     }
 
     /**
-     * Для форм ответа: "Выбор нескольких вариантов ответа", "Подстановка слов в пропуски в тексте", "Распределение элементов по группам".
+     * Для форм ответа: "Выбор нескольких вариантов ответа", "Подстановка слов в пропуски в тексте", "Распределение элементов по группам",
+     * "Упорядочивание элементов".
      */
     @Step("Проверить перемешивание по тексту ответов для формы {answerOptionsOrder}")
     private boolean checkOptionsRandom(ElementsCollection answerOptionsOrder) {
@@ -340,7 +344,7 @@ public class TaskPreviewPage {
      * Для формы ответа "Распределение элементов по группам"
      */
     @Step("Нажать на вариант ответа {answerText} в блоке ответов")
-    public TaskPreviewPage clickGroupAnswerOptionInBlock(String  answerText) {
+    public TaskPreviewPage clickGroupAnswerOptionInBlock(String answerText) {
         elsGroupAnswerOptionsInBlock
                 .shouldBe(CollectionCondition.sizeGreaterThan(0))
                 .find(Condition.exactText(answerText))
@@ -352,7 +356,7 @@ public class TaskPreviewPage {
      * Для формы ответа "Распределение элементов по группам"
      */
     @Step("Нажать на блок группы {groupText}")
-    public TaskPreviewPage clickGroupAnswerGroupBlock(String  groupText) {
+    public TaskPreviewPage clickGroupAnswerGroupBlock(String groupText) {
         elsGroupAnswerGroupBlocks
                 .shouldBe(CollectionCondition.sizeGreaterThan(0))
                 .find(Condition.exactText(groupText))
@@ -364,7 +368,7 @@ public class TaskPreviewPage {
      * Для формы ответа "Распределение элементов по группам"
      */
     @Step("Нажать кнопку открытия/закрытия блока группы {groupText}")
-    public TaskPreviewPage clickGroupAnswerListBtn(String  groupText) {
+    public TaskPreviewPage clickGroupAnswerListBtn(String groupText) {
         elsGroupAnswerGroupBlocks
                 .shouldBe(CollectionCondition.sizeGreaterThan(0))
                 .find(Condition.exactText(groupText))
@@ -377,11 +381,59 @@ public class TaskPreviewPage {
      * Для формы ответа "Распределение элементов по группам"
      */
     @Step("Нажать на вариант ответа {answerText} в группе")
-    public TaskPreviewPage clickGroupAnswerOptionInGroup(String  answerText) {
+    public TaskPreviewPage clickGroupAnswerOptionInGroup(String answerText) {
         elsGroupAnswerOptionsInGroups
                 .shouldBe(CollectionCondition.sizeGreaterThan(0))
                 .find(Condition.exactText(answerText))
                 .click();
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Упорядочивание элементов"
+     */
+    @Step("Проверить перемешивание вариантов ответа для формы [Упорядочивание элементов]")
+    public TaskPreviewPage checkOrderAnswerAnswerOptionsRandom() {
+        checkOptionsRandom(elsOrderAnswerOptions);
+        return this;
+    }
+
+    /**
+     * Для форм ответа: "Упорядочивание элементов".
+     */
+    @Step("Нажать стрелку [Вверх] или [Вниз] варианта ответа {optionText} в зависимости от позиции ответа ({optionLine}) и позиции перемещения ({moveOptionTo})")
+    public TaskPreviewPage clickOptionArrowBtn(String optionText, int moveOptionTo) {
+        String xpathArrowUp = "./ancestor::*[@style='opacity: 1;']//*[name()='svg' and ./*[contains(@d,'M13')]]";
+        String xpathArrowDown = "./ancestor::*[@style='opacity: 1;']//*[name()='svg' and ./*[contains(@d,'M11')]]";
+        int optionLine = elsOrderAnswerOptions.indexOf(elsOrderAnswerOptions.find(Condition.exactText(optionText)));
+        if (optionLine > moveOptionTo) {
+            elsOrderAnswerOptions
+                    .find(Condition.exactText(optionText))
+                    .$x(xpathArrowUp)
+                    .click();
+        } else if (optionLine < moveOptionTo) {
+            elsOrderAnswerOptions
+                    .find(Condition.exactText(optionText))
+                    .$x(xpathArrowDown)
+                    .click();
+        }
+        return this;
+    }
+
+    /**
+     * Для формы ответа "Упорядочивание элементов"
+     */
+    @Step("Переместить вариант ответа {optionText} в позицию #{optionDestinationLine}")
+    public TaskPreviewPage moveOrderAnswerOptionToPosition(String optionText, int optionDestinationLine) {
+        int failCounter = 0;
+        while (!elsOrderAnswerOptions.shouldBe(CollectionCondition.sizeGreaterThanOrEqual(optionDestinationLine + 1)).get(optionDestinationLine)
+                .getText().equals(optionText) && failCounter <= 10) {
+            clickOptionArrowBtn(optionText, optionDestinationLine);
+            failCounter++;
+        }
+        if (failCounter >= 10) {
+            throw new RuntimeException("Ошибка сортировки. Превышено число попыток перемещения варианта ответа.");
+        }
         return this;
     }
 

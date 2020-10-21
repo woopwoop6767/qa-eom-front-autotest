@@ -16,18 +16,18 @@ import static com.codeborne.selenide.Selenide.*;
 public class GapTextMatchAnswer extends TaskConstructorPage {
 
 
-    SelenideElement elTaskFieldInput = $x("//*[contains(text(),'Введите задание')]/..//div[@role='textbox']");
-    ElementsCollection elsAnswerModeRadioBtns = $$x("//*[@role='radiogroup']//p");
-    SelenideElement elAddOptionFieldInTaskFieldBtn = $x("//button[@title='Добавить место для подстановки внутри текста']");
-    SelenideElement elEditAnswerOptionsBtn = $x("//button[.//*[contains(text(),'Редактировать подписи')]]");
-    ElementsCollection elsOptionFieldInputs = $$x("//input[contains(@id,'select')]");
-    SelenideElement elAddOptionBtn = $x("//button[.//*[contains(text(),'Добавить подпись')]]");
-    SelenideElement elCloseModalEditOptionsBtn = $x("//button[.//*[contains(text(),'Закрыть')]]");
-    ElementsCollection elsDeleteOptionBtns = $$x("//button[@title='Удалить вариант']");
-    ElementsCollection elsLocationsForAnswerOptionsBtns = $$x("//figure");
-    SelenideElement elSortSelector = $x("//*[contains(text(),'Сортировка:')]//following::*[@aria-haspopup][1]");
-    ElementsCollection elsOptionsInSortSelectorList = $$x("//li[@role='option']");
-    ElementsCollection elsAnswerOptionsInBlock = $$x("//div[@title and @style]");
+    private SelenideElement elTaskFieldInput = $x("//*[contains(text(),'Введите задание')]/..//div[@role='textbox']");
+    private ElementsCollection elsAnswerModeRadioBtns = $$x("//*[@role='radiogroup']//p");
+    private SelenideElement elAddOptionFieldInTaskFieldBtn = $x("//button[@title='Добавить место для подстановки внутри текста']");
+    private SelenideElement elEditAnswerOptionsBtn = $x("//button[.//*[contains(text(),'Редактировать подписи')]]");
+    private ElementsCollection elsOptionFieldInputs = $$x("//input[contains(@id,'select')]");
+    private SelenideElement elAddOptionBtn = $x("//button[.//*[contains(text(),'Добавить подпись')]]");
+    private SelenideElement elCloseModalEditOptionsBtn = $x("//button[.//*[contains(text(),'Закрыть')]]");
+    private ElementsCollection elsDeleteOptionBtns = $$x("//button[@title='Удалить вариант']");
+    private ElementsCollection elsLocationsForAnswerOptionsBtns = $$x("//figure");
+    private SelenideElement elSortSelector = $x("//*[contains(text(),'Сортировка:')]//following::*[@aria-haspopup][1]");
+    private ElementsCollection elsOptionsInSortSelectorList = $$x("//li[@role='option']");
+    private ElementsCollection elsAnswerOptionsInBlock = $$x("//div[@title and @style]");
 
 
     @Step("Ввести символы {symbols} в поле ввода задания")
