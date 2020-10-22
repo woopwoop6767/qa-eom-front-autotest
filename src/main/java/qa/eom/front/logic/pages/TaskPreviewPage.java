@@ -26,7 +26,7 @@ public class TaskPreviewPage {
     private SelenideElement elAnswerFieldInput = $x("//input");
     private ElementsCollection elsInlineChoiceAnswerSelectors = $$x("//*[@role='button']");
     private ElementsCollection elsInlineChoiceAnswerInSelectorListBtns = $$x("//li[@role='option'][//ul[@role='listbox']]");
-    private ElementsCollection elsMultipleAnswerOptions = $$x("//*[@title and @ style]");
+    private ElementsCollection elsMultipleAnswerOptions = $$x("//*[contains(text(),'Укажите один или несколько')]/..//*[@title]//span");
     private ElementsCollection elsSingleAnswerOptions = $$x("//*[contains(text(),'Укажите правильный вариант ответа')]/..//*[@title]");
     private ElementsCollection elsTableAnswerCellInputs = $$x("//textarea");
     private ElementsCollection elsTimelineAnswerMarksPositions = $$x("//*[contains(@style,'min-width: calc(')]");
@@ -34,7 +34,7 @@ public class TaskPreviewPage {
     private ElementsCollection elsTimelineAnswerMarksDescriptions = $$x("//*[contains(@class,'item-label-paper')]/..//*[@title]");
     private ElementsCollection elsTimelineAnswerOptionsInMarkList = $$x("//ul//*[@title]");
     private SelenideElement elsTimelineAnswerOptionsBlock = $x("//p[contains(text(),'Ответы:')]");
-    private SelenideElement elFreeAnswerFieldInput = $x("//textarea[@id]");
+    private SelenideElement elFreeAnswerFieldInput = $x("//textarea[not (@readonly)]");
     private ElementsCollection elsGapTextMatchAnswerOptionsInBlock = $$x("//div[contains(@style,'solid')]//span");
     private ElementsCollection elsGapTextMatchAnswerLocations = $$x("//*[contains(text(),'Заполните пропуски в тексте:')]/../*/*/div[not (contains(@style,'solid'))]/div/span");
     private ElementsCollection elsGlobalAnswerOptionsInBlock = $$x("//span[contains(text(),'Ответы')]/../..//div[@title]//span");
@@ -110,7 +110,7 @@ public class TaskPreviewPage {
      */
     @Step("Нажать на кнопку варианта ответа {optionText}")
     public TaskPreviewPage clickMultipleAnswerOptionBtn(String optionText) {
-        elsMultipleAnswerOptions.find(Condition.attribute("title", optionText)).click();
+        elsMultipleAnswerOptions.find(Condition.exactText(optionText)).click();
         return this;
     }
 

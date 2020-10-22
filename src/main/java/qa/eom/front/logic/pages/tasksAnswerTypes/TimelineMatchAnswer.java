@@ -16,7 +16,7 @@ public class TimelineMatchAnswer extends TaskConstructorPage {
     private ElementsCollection elsAddAnswerBtns = $$x("//button[.//*[contains(text(),'добавить отметку')]]");
     private ElementsCollection elsSetDateOfMarkBtns = $$x("//button[.//*[contains(text(),'Установить дату отметки')]]");
     private SelenideElement elAddDistractorBtn = $x("//button[.//*[contains(text(),'Добавить дистрактор')]]");
-    private ElementsCollection elsDeleteMarkBtns = $$x("//*[contains(@style,'display')]/div[@class]/button[not (@title)]");
+    private ElementsCollection elsDeleteMarkBtns = $$x("//*[contains(@title,'вернуть')]/../../../../div[2]//button");
     private ElementsCollection elsDeleteAnswerInMarkBtns = $$x("//*[contains(text(),'Ответ № ')]/../../../..//button[not (@title)]");
     private ElementsCollection elsMarkDescriptionsInputs = $$x("//*[contains(text(),'Отметка № ')]/..//*[@role='textbox']");
     private ElementsCollection elsMarkAnswersInputs = $$x("//*[contains(text(),'Ответ № ')]/..//*[@role='textbox']");
@@ -25,8 +25,8 @@ public class TimelineMatchAnswer extends TaskConstructorPage {
     private SelenideElement elDateMonthMarkInput = $x("//*[contains(text(),'Месяц')]/following::input[1]");
     private SelenideElement elDateYearMarkInput = $x("//*[contains(text(),'Год')]/following::input[1]");
     private SelenideElement elSaveDateOfMarkBtn = $x("//button[.//*[contains(text(),'Сохранить')]]");
-    private SelenideElement elPositionTypeSelector = $x("//*[contains(text(),'Тип вывода')]/..//button");
-    private ElementsCollection elsPositionTypeSelectorOptions = $$x("//span[@role='menuitem']//div[text()]");
+    private SelenideElement elPositionTypeSelector = $x("//*[contains(text(),'Тип вывода')]/..//*[@role='button']");
+    private ElementsCollection elsPositionTypeSelectorOptions = $$x("//ul[@role='listbox']//li[text()]");
     private ElementsCollection elsDistractorsFieldsInputs = $$x("//*[contains(text(),'Дистрактор №')]/..//div[@role='textbox']");
 
 
@@ -40,7 +40,7 @@ public class TimelineMatchAnswer extends TaskConstructorPage {
     public TimelineMatchAnswer clickDeleteMarkBtn(int markNumber) {
         ((JavascriptExecutor) WebDriverRunner.getWebDriver())
                 .executeScript(jsScriptForClickToInvisibleElements,
-                        elsDeleteMarkBtns.shouldBe(CollectionCondition.sizeGreaterThan(0)).get(markNumber));
+                        elsDeleteMarkBtns.shouldBe(CollectionCondition.sizeGreaterThanOrEqual(markNumber)).get(markNumber));
         return this;
     }
 
@@ -48,19 +48,23 @@ public class TimelineMatchAnswer extends TaskConstructorPage {
     public TimelineMatchAnswer clickDeleteAnswerInMarkBtn(int answerNumber) {
         ((JavascriptExecutor) WebDriverRunner.getWebDriver())
                 .executeScript(jsScriptForClickToInvisibleElements,
-                        elsDeleteAnswerInMarkBtns.shouldBe(CollectionCondition.sizeGreaterThan(0)).get(answerNumber));
+                        elsDeleteAnswerInMarkBtns.shouldBe(CollectionCondition.sizeGreaterThanOrEqual(answerNumber)).get(answerNumber));
         return this;
     }
 
     @Step("Нажать кнопку [Установить дату отметки] для отметки #{markNumber}")
     public TimelineMatchAnswer clickSetDateOfMarkBtn(int markNumber) {
-        elsSetDateOfMarkBtns.get(markNumber).click();
+        elsSetDateOfMarkBtns
+                .shouldBe(CollectionCondition.sizeGreaterThanOrEqual(markNumber))
+                .get(markNumber).click();
         return this;
     }
 
     @Step("Нажать кнопку [добавить отметку] для отметки #{markNumber}")
     public TimelineMatchAnswer clickAddAnswerBtn(int markNumber) {
-        elsAddAnswerBtns.get(markNumber).click();
+        elsAddAnswerBtns
+                .shouldBe(CollectionCondition.sizeGreaterThanOrEqual(markNumber))
+                .get(markNumber).click();
         return this;
     }
 
@@ -72,14 +76,18 @@ public class TimelineMatchAnswer extends TaskConstructorPage {
 
     @Step("Ввести символы {symbols} в поле описания отметки #{markNumber}")
     public TimelineMatchAnswer enterSymbolsToMarkDescriptionField(int markNumber, String symbols) {
-        elsMarkDescriptionsInputs.get(markNumber).sendKeys(Keys.chord(Keys.CONTROL, "a"), symbols);
+        elsMarkDescriptionsInputs
+                .shouldBe(CollectionCondition.sizeGreaterThanOrEqual(markNumber))
+                .get(markNumber).sendKeys(Keys.chord(Keys.CONTROL, "a"), symbols);
         sleep(110);
         return this;
     }
 
     @Step("Ввести символы {symbols} в поле ответа #{answerNumber}")
     public TimelineMatchAnswer enterSymbolsToMarkAnswerField(int answerNumber, String symbols) {
-        elsMarkAnswersInputs.get(answerNumber).sendKeys(Keys.chord(Keys.CONTROL, "a"), symbols);
+        elsMarkAnswersInputs
+                .shouldBe(CollectionCondition.sizeGreaterThanOrEqual(answerNumber))
+                .get(answerNumber).sendKeys(Keys.chord(Keys.CONTROL, "a"), symbols);
         sleep(110);
         return this;
     }
@@ -145,6 +153,7 @@ public class TimelineMatchAnswer extends TaskConstructorPage {
     @Step("Ввести символы {symbols} в поле дистрактора #{distractorNumber}")
     public TimelineMatchAnswer enterSymbolsToDistractorField(int distractorNumber, String symbols) {
         elsDistractorsFieldsInputs
+                .shouldBe(CollectionCondition.sizeGreaterThanOrEqual(distractorNumber))
                 .get(distractorNumber)
                 .sendKeys(Keys.chord(Keys.CONTROL, "a"), symbols);
         sleep(110);

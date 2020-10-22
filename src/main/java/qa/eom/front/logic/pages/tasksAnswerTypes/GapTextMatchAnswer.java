@@ -1,9 +1,6 @@
 package qa.eom.front.logic.pages.tasksAnswerTypes;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.*;
 import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -27,7 +24,7 @@ public class GapTextMatchAnswer extends TaskConstructorPage {
     private ElementsCollection elsLocationsForAnswerOptionsBtns = $$x("//figure");
     private SelenideElement elSortSelector = $x("//*[contains(text(),'Сортировка:')]//following::*[@aria-haspopup][1]");
     private ElementsCollection elsOptionsInSortSelectorList = $$x("//li[@role='option']");
-    private ElementsCollection elsAnswerOptionsInBlock = $$x("//div[@title and @style]");
+    private ElementsCollection elsAnswerOptionsInBlock = $$x("//div[@title]//span");
 
 
     @Step("Ввести символы {symbols} в поле ввода задания")
@@ -129,10 +126,13 @@ public class GapTextMatchAnswer extends TaskConstructorPage {
         Actions actions = new Actions(WebDriverRunner.getWebDriver());
         actions
                 .moveToElement(elsAnswerOptionsInBlock
-                        .find(Condition.attribute("title", optionName)))
+                        .shouldBe(CollectionCondition.sizeGreaterThan(0))
+                        .find(Condition.exactText(optionName)))
                 .pause(Duration.ofMillis(100))
                 .clickAndHold()
-                .moveToElement(elsLocationsForAnswerOptionsBtns.get(locationNumber))
+                .moveToElement(elsLocationsForAnswerOptionsBtns
+                        .shouldBe(CollectionCondition.sizeGreaterThanOrEqual(locationNumber))
+                        .get(locationNumber))
                 .moveByOffset(1, 0)
                 .release().perform();
         return this;

@@ -1,6 +1,9 @@
-package qa.eom.front.tests.testTask;
+package qa.eom.front.tests.testSpec;
 
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import qa.eom.front.logic.ApiActionsForTests;
 import qa.eom.front.logic.GenerateText;
 import qa.eom.front.logic.UserCredentials;
@@ -9,13 +12,13 @@ import qa.eom.front.logic.driver.CookiesHandler;
 import qa.eom.front.logic.driver.DesktopDriver;
 import qa.eom.front.logic.dto.TaskFillData;
 import qa.eom.front.logic.pages.TaskPreviewPage;
-import qa.eom.front.logic.pages.tasksAnswerTypes.MultipleAnswer;
+import qa.eom.front.logic.pages.tasksAnswerTypes.MatchAnswer;
 import qa.eom.front.logic.pojo.authresponse.ResponseAuth;
 
-public class test004TaskMultipleAnswerEOM_01_4 implements DesktopDriver, Authorization, CookiesHandler, GenerateText, ApiActionsForTests {
+public class test014SpecCreationТС_7767 implements DesktopDriver, Authorization, CookiesHandler, GenerateText, ApiActionsForTests {
 
     private ResponseAuth responseAuth;
-    private MultipleAnswer multipleAnswer;
+    private MatchAnswer matchAnswer;
     private TaskPreviewPage taskPreviewPage;
     private TaskFillData taskFillData;
     private String idOfCreatedTask;
@@ -34,7 +37,7 @@ public class test004TaskMultipleAnswerEOM_01_4 implements DesktopDriver, Authori
     void setUp() {
 
         setAuthorizationCookies(responseAuth);
-        multipleAnswer = new MultipleAnswer();
+        matchAnswer = new MatchAnswer();
         taskPreviewPage = new TaskPreviewPage();
         taskFillData = new TaskFillData("AutoMegabobaTask_" + generateRandomNumber(5),
                 4, "Биология", "Бактерии. Грибы и лишайники", "Лишайники");
@@ -44,42 +47,28 @@ public class test004TaskMultipleAnswerEOM_01_4 implements DesktopDriver, Authori
     @Test
     void test() {
 
-        multipleAnswer
+        matchAnswer
                 .openTaskConstructorPage()
                 .clickAnswerFormSelector()
-                .clickAnswerFormBtnInSelector("Выбор нескольких вариантов ответа")
+                .clickAnswerFormBtnInSelector("Установление соответствия")
                 .enterSymbolsToQuestionField("a question...")
                 ;
-        multipleAnswer
-                .clickAddAnswerBtn()
-                .enterSymbolsToAnswerFieldInput(0, "Правильный ответ1")
-                .enterSymbolsToAnswerFieldInput(1, "Правильный ответ2")
-                .clickAddDistractorBtn()
-                .clickAddDistractorBtn()
-                .enterSymbolsToDistractorFieldInput(0, "Дистрактор1")
-                .enterSymbolsToDistractorFieldInput(1, "Дистрактор2")
+
+        matchAnswer
+
                 .clickPreviewTaskBtn()
                 ;
 
         taskPreviewPage
-                .checkMultipleAnswerOptionsRandom()
-                .clickMultipleAnswerOptionBtn("Правильный ответ1")
-                .clickMultipleAnswerOptionBtn("Дистрактор1")
-                .clickAnswerBtn()
-                .checkAnswerIsWrongMsgIsVisible()
-                .clickMultipleAnswerOptionBtn("Дистрактор1")
-                .clickMultipleAnswerOptionBtn("Правильный ответ2")
-                .clickAnswerBtn()
-                .checkAnswerIsCorrectMsgIsVisible()
                 .clickGoToEditBtn()
                 ;
 
-        multipleAnswer
+        matchAnswer
                 .clickGoToSettingsBtn()
                 .fillAllSettingsFiedsAndSaveTask(taskFillData)
                 ;
 
-        idOfCreatedTask = multipleAnswer.getIdOfCreatedTask();
+        idOfCreatedTask = matchAnswer.getIdOfCreatedTask();
 
     }
 

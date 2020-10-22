@@ -17,8 +17,8 @@ public class TableAnswer extends TaskConstructorPage {
     private SelenideElement elInsertTableBtn = $x("//button[.//span[contains(text(),'вставить таблицу')]]");
     private ElementsCollection elsCellsMenuBtns = $$x("//td//button");
     private ElementsCollection elsCellsFieldInputs = $$x("//td//textarea");
-    private ElementsCollection elsColumnMenuOptionsBtns = $$x("//*[@role='menu' and .//*[contains(text(),'Добавить колонку')]]//div[@style]//*");
-    private ElementsCollection elsRowMenuOptionsBtns = $$x("//*[@role='menu' and .//*[contains(text(),'Добавить строку')]]//div[@style]//*");
+    private ElementsCollection elsColumnMenuOptionsBtns = $$x("//*[@role='menu' and .//*[contains(text(),'Добавить колонку')]]//p");
+    private ElementsCollection elsRowMenuOptionsBtns = $$x("//*[@role='menu' and .//*[contains(text(),'Добавить строку')]]//p");
     private SelenideElement elCorrectAnswerTableModeBtn = $x("//button[.//*[contains(text(),'Режим выбора правильного ответа')]]");
     private SelenideElement elEditTableModeBtn = $x("//button[.//*[contains(text(),'Редактирование таблицы')]]");
 
@@ -56,13 +56,13 @@ public class TableAnswer extends TaskConstructorPage {
         return this;
     }
 
-    @Step("Нажать кнопку {option} в меню ячейки строки")
+    @Step("Нажать кнопку [{option}] в меню ячейки строки")
     public TableAnswer clickRowMenuOptionBtn(String option) {
         elsRowMenuOptionsBtns.find(Condition.text(option)).click();
         return this;
     }
 
-    @Step("Нажать кнопку {option} в меню ячейки столбика")
+    @Step("Нажать кнопку [{option}] в меню ячейки столбика")
     public TableAnswer clickColumnMenuOptionBtn(String option) {
         elsColumnMenuOptionsBtns.find(Condition.text(option)).click();
         return this;
